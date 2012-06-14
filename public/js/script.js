@@ -32,11 +32,82 @@ App.maxFontScaleSize = 5;
   var dataSourceHtml = _.template("Data source: <a href='<%= dataSource %>'><%= dataSource %></a>")
   $("#data-source").html(dataSourceHtml({ dataSource: App.dataUrl }));
 
+
+  ///////////////////////////////////////////////////////////////
+  // Views
+  ///////////////////////////////////////////////////////////////
+
+  App.TreemapView = Backbone.View.extend({
+    render: function(year) {
+      // Construct treemap with data
+      var leaves = App.treemap(_.find(App.data, function(elem) { return elem.year === year }));
+
+      // Scale font size based on area of tree cells
+      App.fontScale = d3.scale.linear()
+        // Check the country cells for their areas
+        .domain(d3.extent(leaves, function(d) {
+          if (d.depth === 1) {
+            return d.area;
+          } else {
+            return null;
+          }
+        }))
+        .range([App.minFontScaleSize, App.maxFontScaleSize]);
+
+      // Associate data and html elements (yet to be created)
+      var cell = App.svg.selectAll("g.cell")
+        .data(leaves);
+
+      // Create html elements
+      var entering = cell.enter()
+        .append("g")
+          // Add classes for different depths of data
+          .attr("class", function(d) {
+            var cssClass = "cell";
+            cssClass += " depth-" + d.depth;
+            if (d.depth === 0) {
+              cssClass += " year";
+              cssClass += " year-" + getCssClass(String(d.data.year));
+            } else if (d.depth === 1) {
+              cssClass += " country";
+              cssClass += " country-" + getCssClass(String(d.data.country_code));
+            } else {
+              cssClass += " medal";
+              cssClass += (" medal-" + getCssClass(d.data.medal));
+            }
+            return cssClass;
+          })
+      entering.append("rect"); // Blocks
+      entering.append("text").attr("class", "name"); // Add name of countries
+
+      // Update cells
+      cell.call(updateGraph);
+
+      // Animate removal of cells
+      cell.exit()
+        .transition()
+          .duration(App.removeCellDuration)
+          .call(animateCellRemove)
+        .remove();
+
+      // Handle years when there were no olympics
+      $("#no-olympics-msg").remove();
+      if (year === 1916) {
+        $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in 1916 (World War 1)</div>");
+      } else if ((year === 1940) || (year === 1944)) {
+        $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
+      } else {
+        addTooltips();
+      }
+    }
+  });
+
   ///////////////////////////////////////////////////////////////
   // Olympic tree map
   ///////////////////////////////////////////////////////////////
 
   App.colorScale = d3.scale.category20c();
+  App.olympicTreemap = new App.TreemapView({ el: "#medals-tree-map" });
 
   // Create svg container
   App.svg = d3.select("#medals-tree-map").append("svg:svg")
@@ -111,7 +182,7 @@ App.maxFontScaleSize = 5;
     App.data = data;
     App.years = _.pluck(App.data, 'year');
     App.countryCodes = findCountryCodes(App.data);
-    drawGraphForYear(App.data, App.currentYear);
+    App.olympicTreemap.render(App.currentYear);
 
     // Add years control
     prependYearsControl("year-selector", "#controls", App.currentYear);
@@ -127,69 +198,6 @@ App.maxFontScaleSize = 5;
     var country_codes = _.pluck(uniqueCountryArrays, "country_code")
 
     return country_codes;
-  }
-
-  function drawGraphForYear(data, year) {
-    // Construct treemap with data
-    var leaves = App.treemap(_.find(App.data, function(elem) { return elem.year === year }));
-
-    // Scale font size based on area of tree cells
-    App.fontScale = d3.scale.linear()
-      // Check the country cells for their areas
-      .domain(d3.extent(leaves, function(d) {
-        if (d.depth === 1) {
-          return d.area;
-        } else {
-          return null;
-        }
-      }))
-      .range([App.minFontScaleSize, App.maxFontScaleSize]);
-
-    // Associate data and html elements (yet to be created)
-    var cell = App.svg.selectAll("g.cell")
-      .data(leaves);
-
-    // Create html elements
-    var entering = cell.enter()
-      .append("g")
-        // Add classes for different depths of data
-        .attr("class", function(d) {
-          var cssClass = "cell";
-          cssClass += " depth-" + d.depth;
-          if (d.depth === 0) {
-            cssClass += " year";
-            cssClass += " year-" + getCssClass(String(d.data.year));
-          } else if (d.depth === 1) {
-            cssClass += " country";
-            cssClass += " country-" + getCssClass(String(d.data.country_code));
-          } else {
-            cssClass += " medal";
-            cssClass += (" medal-" + getCssClass(d.data.medal));
-          }
-          return cssClass;
-        })
-    entering.append("rect"); // Blocks
-    entering.append("text").attr("class", "name"); // Add name of countries
-
-    // Update cells
-    cell.call(updateGraph);
-
-    // Animate removal of cells
-    cell.exit()
-      .transition()
-        .duration(App.removeCellDuration)
-        .call(animateCellRemove)
-      .remove();
-
-    // Handle years when there were no olympics
-    $("#no-olympics-msg").remove();
-    if (year === 1916) {
-      $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in 1916 (World War 1)</div>");
-    } else if ((year === 1940) || (year === 1944)) {
-      $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
-    } else {
-      addTooltips();
-    }
   }
 
   // Add tooltips for country cells
@@ -311,7 +319,7 @@ App.maxFontScaleSize = 5;
         },
         change: function(event, ui) {
           App.currentYear = parseInt(ui.value);
-          drawGraphForYear(App.data, App.currentYear);
+          App.olympicTreemap.render(App.currentYear);
           $('#year-label').html(App.currentYear);
         },
         slide: function(event, ui) {
