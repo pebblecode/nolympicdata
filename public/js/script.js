@@ -97,8 +97,33 @@ App.maxFontScaleSize = 5;
       } else if ((year === 1940) || (year === 1944)) {
         $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
       } else {
-        addTooltips();
+        this._addCountryTooltips();
       }
+    },
+    // Add tooltips for country cells
+    _addCountryTooltips: function() {
+      var medalsTemplate = _.template("Gold: <%= gold %>, Silver: <%= silver %>, Bronze: <%= bronze %>");
+      d3.selectAll("g.country").each(function(d) {
+        var country = $(this);
+        country.qtip({
+          content: {
+            title: d.data.country_name,
+            text: medalsTemplate({ gold: d.data.gold, silver: d.data.silver, bronze: d.data.bronze })
+          },
+          position: {
+              my: 'top left',
+              target: 'mouse',
+              viewport: $(window), // Keep it on-screen at all times if possible
+              adjust: {
+                  x: 10,  y: 10
+              }
+          },
+          hide: {
+              fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
+          },
+          style: 'ui-tooltip-shadow'
+        });
+      });
     }
   });
 
@@ -198,32 +223,6 @@ App.maxFontScaleSize = 5;
     var country_codes = _.pluck(uniqueCountryArrays, "country_code")
 
     return country_codes;
-  }
-
-  // Add tooltips for country cells
-  function addTooltips() {
-    var medalsTemplate = _.template("Gold: <%= gold %>, Silver: <%= silver %>, Bronze: <%= bronze %>");
-    d3.selectAll("g.country").each(function(d) {
-      var country = $(this);
-      country.qtip({
-        content: {
-          title: d.data.country_name,
-          text: medalsTemplate({ gold: d.data.gold, silver: d.data.silver, bronze: d.data.bronze })
-        },
-        position: {
-            my: 'top left',
-            target: 'mouse',
-            viewport: $(window), // Keep it on-screen at all times if possible
-            adjust: {
-                x: 10,  y: 10
-            }
-        },
-        hide: {
-            fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
-        },
-        style: 'ui-tooltip-shadow'
-      });
-    });
   }
 
   function updateGraph(selection) {
