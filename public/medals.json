@@ -1,0 +1,872 @@
+[
+  {
+    "name": "2000",
+    "children": [
+      {
+        "name": "USA",
+        "children": [
+          {"name": "gold", "number": 200},
+          {"name": "silver", "number": 238},
+          {"name": "bronze", "number": 139}
+        ]
+      },
+      {
+        "name": "AUS",
+        "children": [
+          {"name": "gold", "number": 84},
+          {"name": "silver", "number": 52},
+          {"name": "bronze", "number": 73}
+        ]
+      },
+      {
+        "name": "GBR",
+        "children": [
+          {"name": "gold", "number": 70},
+          {"name": "silver", "number": 78},
+          {"name": "bronze", "number": 61}
+        ]
+      },
+      {
+        "name": "FIN",
+        "children": [
+          {"name": "gold", "number": 60},
+          {"name": "silver", "number": 35},
+          {"name": "bronze", "number": 30}
+        ]
+      },
+      {
+        "name": "GDR",
+        "children": [
+          {"name": "gold", "number": 45},
+          {"name": "silver", "number": 36},
+          {"name": "bronze", "number": 35}
+        ]
+      },
+      {
+        "name": "KEN",
+        "children": [
+          {"name": "gold", "number": 19},
+          {"name": "silver", "number": 23},
+          {"name": "bronze", "number": 19}
+        ]
+      }
+    ]
+  },
+  {
+    "name": "2004",
+    "children": [
+      {
+        "name": "USA",
+        "children": [
+          {"name": "gold", "number": 100},
+          {"name": "silver", "number": 238},
+          {"name": "bronze", "number": 189}
+        ]
+      },
+      {
+        "name": "URS",
+        "children": [
+          {"name": "gold", "number": 38},
+          {"name": "silver", "number": 20},
+          {"name": "bronze", "number": 4}
+        ]
+      },
+      {
+        "name": "GBR",
+        "children": [
+          {"name": "gold", "number": 12},
+          {"name": "silver", "number": 48},
+          {"name": "bronze", "number": 61}
+        ]
+      }
+    ]
+  },
+  {
+    "name": "2008",
+    "children": [
+      {
+        "name": "USA",
+        "full_name": "United States",
+        "children": [
+          {"name": "gold", "number": 36},
+          {"name": "silver", "number": 38},
+          {"name": "bronze", "number": 36}
+        ]
+      },
+      {
+        "name": "CHN",
+        "full_name": "China",
+        "children": [
+          {"name": "gold", "number": 51},
+          {"name": "silver", "number": 21},
+          {"name": "bronze", "number": 28}
+        ]
+      },
+      {
+        "name": "URS",
+        "full_name": "Soviet Union",
+        "children": [
+          {"name": "gold", "number": 23},
+          {"name": "silver", "number": 21},
+          {"name": "bronze", "number": 28}
+        ]
+      },
+      {
+        "name": "GBR",
+        "full_name": "Britain",
+        "children": [
+          {"name": "gold", "number": 19},
+          {"name": "silver", "number": 13},
+          {"name": "bronze", "number": 15}
+        ]
+      },
+      {
+        "name": "AUS",
+        "full_name": "Australia",
+        "children": [
+          {"name": "gold", "number": 14},
+          {"name": "silver", "number": 15},
+          {"name": "bronze", "number": 17}
+        ]
+      },
+      {
+        "name": "GER",
+        "full_name": "Germany",
+        "children": [
+          {"name": "gold", "number": 16},
+          {"name": "silver", "number": 10},
+          {"name": "bronze", "number": 15}
+        ]
+      },
+      {
+        "name": "FRA",
+        "full_name": "France",
+        "children": [
+          {"name": "gold", "number": 7},
+          {"name": "silver", "number": 16},
+          {"name": "bronze", "number": 17}
+        ]
+      },
+      {
+        "name": "KOR",
+        "full_name": "South Korea",
+        "children": [
+          {"name": "gold", "number": 13},
+          {"name": "silver", "number": 10},
+          {"name": "bronze", "number": 8}
+        ]
+      },
+      {
+        "name": "ITA",
+        "full_name": "Italy",
+        "children": [
+          {"name": "gold", "number": 8},
+          {"name": "silver", "number": 10},
+          {"name": "bronze", "number": 10}
+        ]
+      },
+      {
+        "name": "UKR",
+        "full_name": "Ukraine",
+        "children": [
+          {"name": "gold", "number": 7},
+          {"name": "silver", "number": 5},
+          {"name": "bronze", "number": 15}
+        ]
+      },
+      {
+        "name": "JPN",
+        "full_name": "Japan",
+        "children": [
+          {"name": "gold", "number": 9},
+          {"name": "silver", "number": 6},
+          {"name": "bronze", "number": 10}
+        ]
+      },
+      {
+        "name": "CUB",
+        "full_name": "Cuba",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 11},
+          {"name": "bronze", "number": 11}
+        ]
+      },
+      {
+        "name": "BLR",
+        "full_name": "Belarus",
+        "children": [
+          {"name": "gold", "number": 4},
+          {"name": "silver", "number": 5},
+          {"name": "bronze", "number": 10}
+        ]
+      },
+      {
+        "name": "ESP",
+        "full_name": "Spain",
+        "children": [
+          {"name": "gold", "number": 5},
+          {"name": "silver", "number": 10},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "CAN",
+        "full_name": "Canada",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 9},
+          {"name": "bronze", "number": 6}
+        ]
+      },
+      {
+        "name": "NED",
+        "full_name": "Netherlands",
+        "children": [
+          {"name": "gold", "number": 7},
+          {"name": "silver", "number": 5},
+          {"name": "bronze", "number": 4}
+        ]
+      },
+      {
+        "name": "BRA",
+        "full_name": "Brazil",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 4},
+          {"name": "bronze", "number": 8}
+        ]
+      },
+      {
+        "name": "KEN",
+        "full_name": "Kenya",
+        "children": [
+          {"name": "gold", "number": 5},
+          {"name": "silver", "number": 5},
+          {"name": "bronze", "number": 4}
+        ]
+      },
+      {
+        "name": "KAZ",
+        "full_name": "Kazakhstan",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 4},
+          {"name": "bronze", "number": 7}
+        ]
+      },
+      {
+        "name": "JAM",
+        "full_name": "Jamaica",
+        "children": [
+          {"name": "gold", "number": 6},
+          {"name": "silver", "number": 3},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "POL",
+        "full_name": "Poland",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 6},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "HUN",
+        "full_name": "Hungary",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 5},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "NOR",
+        "full_name": "Norway",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 5},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "NZL",
+        "full_name": "New Zealand",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 5}
+        ]
+      },
+      {
+        "name": "ROU",
+        "full_name": "Romania",
+        "children": [
+          {"name": "gold", "number": 4},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "TUR",
+        "full_name": "Turkey",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 4},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "ETH",
+        "full_name": "Ethiopia",
+        "children": [
+          {"name": "gold", "number": 4},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "DEN",
+        "full_name": "Denmark",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "AZE",
+        "full_name": "Azerbaijan",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 4}
+        ]
+      },
+      {
+        "name": "CZE",
+        "full_name": "Czech Republic",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 3},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "TCH",
+        "full_name": "Slovakia",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "GEO",
+        "full_name": "Georgia",
+        "children": [
+          {"name": "gold", "number": 3},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "NKO",
+        "full_name": "North Korea",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "ARG",
+        "full_name": "Argentina",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 4}
+        ]
+      },
+      {
+        "name": "SUI",
+        "full_name": "Switzerland",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 4}
+        ]
+      },
+      {
+        "name": "UZB",
+        "full_name": "Uzbekistan",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "ARM",
+        "full_name": "Armenia",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 6}
+        ]
+      },
+      {
+        "name": "SLO",
+        "full_name": "Slovenia",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "BUL",
+        "full_name": "Bulgaria",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "INN",
+        "full_name": "Indonesia",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "SWE",
+        "full_name": "Sweden",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 4},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "CRO",
+        "full_name": "Croatia",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "LTU",
+        "full_name": "Lithuania",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "MON",
+        "full_name": "Mongolia",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "THA",
+        "full_name": "Thailand",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "ZIM",
+        "full_name": "Zimbabwe",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 3},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "FIN",
+        "full_name": "Finland",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "GRE",
+        "full_name": "Greece",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "NGR",
+        "full_name": "Nigeria",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 3}
+        ]
+      },
+      {
+        "name": "TPE",
+        "full_name": "Taiwan",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 4}
+        ]
+      },
+      {
+        "name": "MEX",
+        "full_name": "Mexico",
+        "children": [
+          {"name": "gold", "number": 2},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "LAT",
+        "full_name": "Latvia",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "IND",
+        "full_name": "India",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "AUT",
+        "full_name": "Austria",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "IRL",
+        "full_name": "Ireland",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "SER",
+        "full_name": "Serbia",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 2}
+        ]
+      },
+      {
+        "name": "BEL",
+        "full_name": "Belgium",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "DOM",
+        "full_name": "Dominican Republic",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "EST",
+        "full_name": "Estonia",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "POR",
+        "full_name": "Portugal",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "IRA",
+        "full_name": "Iran",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "TRI",
+        "full_name": "Trinidad and Tobago",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 2},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "ALG",
+        "full_name": "Algeria",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "BAH",
+        "full_name": "Bahamas",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "COL",
+        "full_name": "Colombia",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "KYR",
+        "full_name": "Kyrgyzstan",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "MAR",
+        "full_name": "Morocco",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "TAJ",
+        "full_name": "Tajikistan",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "BAH",
+        "full_name": "Bahrain",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "CMR",
+        "full_name": "Cameroon",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "PAN",
+        "full_name": "Panama",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "TUN",
+        "full_name": "Tunisia",
+        "children": [
+          {"name": "gold", "number": 1},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "CHI",
+        "full_name": "Chile",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "ECU",
+        "full_name": "Ecuador",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "ISL",
+        "full_name": "Iceland",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "MAL",
+        "full_name": "Malaysia",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "SIN",
+        "full_name": "Singapore",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "RSA",
+        "full_name": "South Africa",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "SUD",
+        "full_name": "Sudan",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "VIE",
+        "full_name": "Vietnam",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 1},
+          {"name": "bronze", "number": 0}
+        ]
+      },
+      {
+        "name": "AFG",
+        "full_name": "Afghanistan",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "EGY",
+        "full_name": "Egypt",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "ISR",
+        "full_name": "Israel",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "MAU",
+        "full_name": "Mauritius",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "MOL",
+        "full_name": "Moldova",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "TOG",
+        "full_name": "Togo",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      },
+      {
+        "name": "VEN",
+        "full_name": "Venezuela",
+        "children": [
+          {"name": "gold", "number": 0},
+          {"name": "silver", "number": 0},
+          {"name": "bronze", "number": 1}
+        ]
+      }
+    ]
+  }
+]

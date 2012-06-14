@@ -4,3 +4,12 @@ obj
 
 # mstest test results
 TestResults
+
+# Ruby
+.bundle/
+.sass-cache/
+
+# Misc
+.DS_Store
+tmp/**/*
+tmp

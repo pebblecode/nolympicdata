@@ -1,0 +1,26 @@
+.container-fluid
+  .row-fluid
+    .span12
+      %h2
+        Comparison of total medals won
+      %h3#year-title
+      %div#medals-tree-map
+      %p#data-source
+
+  .row-fluid
+    .span12
+      %h2 API
+      %p
+        Url:
+        %code http://nolympics.pebblecode.net/api/Medals/
+      %h3 Url parameters
+      %dl
+        %dh
+          first
+        %dd
+          The start year. Also determines if it is summer or winter olympics, depending on whether the year is a summer or winter olympics year. If the start year is an invalid olympics year, the results are undefined.
+
+        %dh
+          last
+        %dd
+          The last year
