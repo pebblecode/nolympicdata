@@ -25,6 +25,7 @@ App.removeCellShrinkY = 0.2;
 App.minFontScaleSize = 0.5;
 App.maxFontScaleSize = 5;
 
+App.colorScale = d3.scale.category20c();
 
 (function() {
 
@@ -131,7 +132,6 @@ App.maxFontScaleSize = 5;
   // Olympic tree map
   ///////////////////////////////////////////////////////////////
 
-  App.colorScale = d3.scale.category20c();
   App.olympicTreemap = new App.TreemapView({ el: "#medals-tree-map" });
 
   // Create svg container
