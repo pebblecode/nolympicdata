@@ -8,6 +8,7 @@ require 'fileutils'
 desc "Start the server using the development Procfile."
 task "server" do
   start_server_cmd = "foreman start -f Procfile_development"
+  puts "Start server: http://localhost:4000"
   sh start_server_cmd
 end
 
