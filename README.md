@@ -20,9 +20,10 @@ Connect to the pebblecode vpn (for http://nolympics.pebblecode.net/ to work)
 
 Deployed on [heroku](http://www.heroku.com/).
 
-To setup deployment:
+To setup deployment
 
-    git remote add staging git@heroku.com:datavis-staging.git
+1. Checkout the remote `staging` branch and track the changes `git checkout --track -b staging origin/staging`.
+2. Add staging remote `git remote add staging git@heroku.com:datavis-staging.git`
 
 To push to staging (assuming you have heroku access to deploy)
 
@@ -38,9 +39,9 @@ Project was created with (shouldn't need to be done again, but here just for ref
     heroku config:add RACK_ENV=staging --app datavis-staging
     heroku config:add LOG_LEVEL=DEBUG --app datavis-staging
 
-Initial setup (assuming that origin has staging branch set up)
+Initial setup of origin staging branch
 
-    git checkout --track -b staging origin/staging
+    git push origin HEAD:refs/heads/staging
 
 Merging code and pushing to staging branch
 
