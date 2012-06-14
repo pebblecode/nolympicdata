@@ -182,9 +182,28 @@ App.maxFontScaleSize = 5;
       .remove();
 
 
-    // Add popovers for cells (shows `title` and `data-content` attributes)
-    $('.country .name').popover({
-      placement: "right"
+    // Add tooltips for country cells
+    var medalsTemplate = _.template("Gold: <%= gold %>, Silver: <%= silver %>, Bronze: <%= bronze %>");
+    d3.selectAll("g.country").each(function(d) {
+      var country = $(this);
+      country.qtip({
+        content: {
+          title: d.data.country_name,
+          text: medalsTemplate({ gold: d.data.gold, silver: d.data.silver, bronze: d.data.bronze })
+        },
+        position: {
+            my: 'top left',
+            target: 'mouse',
+            viewport: $(window), // Keep it on-screen at all times if possible
+            adjust: {
+                x: 10,  y: 10
+            }
+        },
+        hide: {
+            fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
+        },
+        style: 'ui-tooltip-shadow'
+      });
     });
   }
 
@@ -213,18 +232,11 @@ App.maxFontScaleSize = 5;
       });
 
     // Create name labels
-    var medalsTemplate = _.template("Gold: <%= gold %>, Silver: <%= silver %>, Bronze: <%= bronze %>");
     selection.select("text.name")
       .attr("x", function(d) { return d.dx / 2; })
       .attr("y", function(d) { return d.dy / 2; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
-      .attr("title", function(d) { return d.data.country_name; })
-      .attr("data-content", function(d) {
-        if (_.has(d.data, "country_code")) { // Country
-          return medalsTemplate({ gold: d.data.gold, silver: d.data.silver, bronze: d.data.bronze });
-        }
-      })
       .text(function(d) {
         var text = null;
         if (_.has(d.data, "country_code")) { // Country
