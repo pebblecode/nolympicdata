@@ -4,7 +4,21 @@ var App = {};
 App.data = null;
 App.years = null;
 App.countryCodes = [];
-App.currentYear = 2008; // The year to show first
+App.olympicDates = {
+  summer: {
+    first: 1896,
+    last: 2008
+  },
+  winter: {
+    first: 1924,
+    last: 2006
+  }
+}
+App.initialYear = {
+  summer: 2008,
+  winter: 2006
+}
+App.currentYear = 2008;
 
 // Data urls
 App.dataUrl = "/get?url=http%3A%2F%2Fnolympics.pebblecode.net%2Fapi%2FMedals%2F%3Ffirst%3D1896%26last%3D2008"
@@ -37,6 +51,35 @@ App.colorScale = d3.scale.category20c();
   ///////////////////////////////////////////////////////////////
   // Views
   ///////////////////////////////////////////////////////////////
+
+  App.NavView = Backbone.View.extend({
+    events: {
+      "click #nav-summer-olympics": "renderSummerOlympics",
+      "click #nav-winter-olympics": "renderWinterOlympics"
+    },
+    renderSummerOlympics: function(event) {
+      var menuItem = event.target;
+      if (!$(menuItem).hasClass("active")) {
+        this._clearActiveMenus();
+        console.log("summer");
+        $(menuItem).parent().addClass("active");
+      }
+      event.preventDefault();
+    },
+    renderWinterOlympics: function(event) {
+      var menuItem = event.target;
+      if (!$(menuItem).hasClass("active")) {
+        this._clearActiveMenus();
+        console.log("winter");
+        $(menuItem).parent().addClass("active");
+      }
+      event.preventDefault();
+    },
+    _clearActiveMenus: function() {
+      $(".nav li").removeClass("active");
+    }
+
+  });
 
   App.TreemapView = Backbone.View.extend({
     svg: null,
@@ -239,6 +282,7 @@ App.colorScale = d3.scale.category20c();
   ///////////////////////////////////////////////////////////////
 
   App.olympicTreemap = new App.TreemapView({ el: "#medals-tree-map" });
+  App.olympicsNav = new App.NavView({ el: "#main" });
 
   // Add control links
   appendControls("controls", "#medals-tree-map");

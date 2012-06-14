@@ -1,10 +1,20 @@
-.container-fluid
+#main.container-fluid
   .row-fluid
-    .span12
-      %h2
-        Comparison of total medals won
-      %div#medals-tree-map
-      %p#data-source
+    .span12.tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          %a{:href => '#nav-summer-olympics', :"data-toggle" => "tab"} Summer Olympics
+        %li
+          %a{:href => '#nav-winter-olympics', :"data-toggle" => "tab"} Winter Olympics
+      .tab-content
+        #nav-summer-olympics.tab-pane.active
+          %h2
+            Comparison of total Summer Olympic medals won
+          %div#medals-tree-map
+          %p#data-source
+        #nav-winter-olympics.tab-pane
+          %h2
+            Comparison of total Winter Olympic medals won
 
   %hr/
 
