@@ -92,6 +92,7 @@ App.colorScale = d3.scale.category20c();
         });
     },
     render: function(year) {
+      var treemap = this;
       // Construct treemap with data
       var leaves = App.treemap(_.find(App.data, function(elem) { return elem.year === year }));
 
@@ -134,13 +135,19 @@ App.colorScale = d3.scale.category20c();
       entering.append("text").attr("class", "name"); // Add name of countries
 
       // Update cells
-      cell.call(updateGraph);
+      cell.call(treemap._updateGraph);
 
       // Animate removal of cells
       cell.exit()
         .transition()
           .duration(App.removeCellDuration)
-          .call(animateCellRemove)
+          .call(function(selection) {
+            // Shrink to remove cell
+            selection
+              .attr('transform', function(d) {
+                return "scale(" + App.removeCellShrinkX + "," + App.removeCellShrinkY +")";
+              });
+          })
         .remove();
 
       // Handle years when there were no olympics
@@ -177,6 +184,53 @@ App.colorScale = d3.scale.category20c();
           style: 'ui-tooltip-shadow'
         });
       });
+    },
+    _updateGraph: function(selection) {
+      var treemap = this;
+      // Place cell
+      selection
+        .transition()
+          .duration(App.transitionCellDuration)
+          .call(function(selection) {
+            selection.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+          });
+
+      // Create block
+      selection.select("rect")
+        .attr("width", function(d) { return d.dx; })
+        .attr("height", function(d) { return d.dy; })
+        .attr("data-area", function(d) { return d.area; })
+        .style("fill", function(d) {
+          var c = null;
+          if (d.depth === 0) { // Year
+            // No color
+          } else if (d.depth === 1) { // Country
+            c = App.colorScale(d.data.country_code);
+          } else { // Medal
+            c = App.colorScale(d.data.medal);
+          }
+          return c;
+        });
+
+      // Create name labels
+      selection.select("text.name")
+        .attr("x", function(d) { return d.dx / 2; })
+        .attr("y", function(d) { return d.dy / 2; })
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .text(function(d) {
+          var text = null;
+          if (_.has(d.data, "country_code")) { // Country
+            if (d.value >= 5) {
+              text = d.data.country_code;
+            }
+          } else if (_.has(d.data, "medal") && (d.parent.value >= 5) && (d.value > 0)) {
+            text = d.data.number
+          }
+
+          return text;
+        })
+        .style("font-size", function(d) { return App.fontScale(d.area) + "em"; });
     }
   });
 
@@ -225,63 +279,6 @@ App.colorScale = d3.scale.category20c();
     var country_codes = _.pluck(uniqueCountryArrays, "country_code")
 
     return country_codes;
-  }
-
-  function updateGraph(selection) {
-    // Place cell
-    selection
-      .transition()
-        .duration(App.transitionCellDuration)
-        .call(animateCellMove);
-
-    // Create block
-    selection.select("rect")
-      .attr("width", function(d) { return d.dx; })
-      .attr("height", function(d) { return d.dy; })
-      .attr("data-area", function(d) { return d.area; })
-      .style("fill", function(d) {
-        var c = null;
-        if (d.depth === 0) { // Year
-          // No color
-        } else if (d.depth === 1) { // Country
-          c = App.colorScale(d.data.country_code);
-        } else { // Medal
-          c = App.colorScale(d.data.medal);
-        }
-        return c;
-      });
-
-    // Create name labels
-    selection.select("text.name")
-      .attr("x", function(d) { return d.dx / 2; })
-      .attr("y", function(d) { return d.dy / 2; })
-      .attr("dy", ".35em")
-      .attr("text-anchor", "middle")
-      .text(function(d) {
-        var text = null;
-        if (_.has(d.data, "country_code")) { // Country
-          if (d.value >= 5) {
-            text = d.data.country_code;
-          }
-        } else if (_.has(d.data, "medal") && (d.parent.value >= 5) && (d.value > 0)) {
-          text = d.data.number
-        }
-
-        return text;
-      })
-      .style("font-size", function(d) { return App.fontScale(d.area) + "em"; });
-  }
-
-  function animateCellRemove(selection) {
-    // Shrink to remove cell
-    selection
-      .attr('transform', function(d) {
-        return "scale(" + App.removeCellShrinkX + "," + App.removeCellShrinkY +")";
-      });
-  }
-
-  function animateCellMove(selection) {
-    selection.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   }
 
   function appendControls(controlsId, elemToAttachTo) {
