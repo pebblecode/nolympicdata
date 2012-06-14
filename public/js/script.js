@@ -186,8 +186,6 @@ App.maxFontScaleSize = 5;
     $('.country .name').popover({
       placement: "right"
     });
-
-    $('#year-title').html(App.currentYear);
   }
 
   function updateGraph(selection) {
@@ -285,9 +283,16 @@ App.maxFontScaleSize = 5;
         min: parseInt(App.years[0]),
         max: parseInt(App.years[App.years.length - 1]),
         step: App.yearsBetweenOlympics,
+        create: function(event, ui) {
+          $('#year-selector .ui-slider-handle').html("<span id='year-label'>" + App.currentYear + "</span>")
+        },
         change: function(event, ui) {
           App.currentYear = parseInt(ui.value);
           drawGraphForYear(App.data, App.currentYear);
+          $('#year-label').html(App.currentYear);
+        },
+        slide: function(event, ui) {
+          $('#year-label').html(ui.value); // Show current slider value
         }
       })
       .css({
