@@ -181,8 +181,19 @@ App.maxFontScaleSize = 5;
         .call(animateCellRemove)
       .remove();
 
+    // Handle years when there were no olympics
+    $("#no-olympics-msg").remove();
+    if (year === 1916) {
+      $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in 1916 (World War 1)</div>");
+    } else if ((year === 1940) || (year === 1944)) {
+      $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
+    } else {
+      addTooltips();
+    }
+  }
 
-    // Add tooltips for country cells
+  // Add tooltips for country cells
+  function addTooltips() {
     var medalsTemplate = _.template("Gold: <%= gold %>, Silver: <%= silver %>, Bronze: <%= bronze %>");
     d3.selectAll("g.country").each(function(d) {
       var country = $(this);

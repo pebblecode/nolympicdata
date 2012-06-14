@@ -38,6 +38,8 @@ text {
 }
 
 #medals-tree-map {
+  position: relative;
+
   .country {
     text {
       // display: none;
@@ -107,4 +109,10 @@ text {
       color: #FF7272;
     }
   }
+}
+
+#no-olympics-msg {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
