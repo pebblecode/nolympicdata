@@ -39,6 +39,58 @@ App.colorScale = d3.scale.category20c();
   ///////////////////////////////////////////////////////////////
 
   App.TreemapView = Backbone.View.extend({
+    svg: null,
+    initialize: function() {
+      // Create svg container
+      this.svg = d3.select(this.el).append("svg:svg")
+          .style("width", App.canvasWidth + "px")
+          .style("height", App.canvasHeight + "px")
+        .append("svg:g")
+          .attr("transform", "translate(-.5,-.5)")
+          .attr("id", "container");
+
+      // Construct treemap layout
+      App.treemap = d3.layout.treemap()
+        .size([App.canvasWidth + 1, App.canvasHeight + 1])
+        .value(function(d) {
+          return d.number;
+        })
+        .children(function(d) {
+          if (_.has(d, "countries")) {
+            var allCountries = [];
+            // For each country code, add the countries data in
+            // if it exists. Otherwise fill it in with 0 medals
+            // for gold/silver/bronze
+            _.each(App.countryCodes, function(countryCode) {
+              var countryData = _.find(d.countries, function(elem) {
+                return elem.country_code === countryCode;
+              })
+
+              if (countryData) {
+                allCountries.push(countryData);
+              } else {
+                allCountries.push({
+                  country_code: countryCode,
+                  gold: 0,
+                  silver: 0,
+                  bronze: 0
+                })
+              }
+            });
+
+            return allCountries;
+          } else if (_.has(d, "country_code")) {
+            // Contruct medal children nodes
+            return [
+                { medal: "gold", number: d.gold },
+                { medal: "silver", number: d.silver },
+                { medal: "bronze", number: d.bronze }
+              ];
+          } else {
+            return null;
+          }
+        });
+    },
     render: function(year) {
       // Construct treemap with data
       var leaves = App.treemap(_.find(App.data, function(elem) { return elem.year === year }));
@@ -56,7 +108,7 @@ App.colorScale = d3.scale.category20c();
         .range([App.minFontScaleSize, App.maxFontScaleSize]);
 
       // Associate data and html elements (yet to be created)
-      var cell = App.svg.selectAll("g.cell")
+      var cell = this.svg.selectAll("g.cell")
         .data(leaves);
 
       // Create html elements
@@ -133,56 +185,6 @@ App.colorScale = d3.scale.category20c();
   ///////////////////////////////////////////////////////////////
 
   App.olympicTreemap = new App.TreemapView({ el: "#medals-tree-map" });
-
-  // Create svg container
-  App.svg = d3.select("#medals-tree-map").append("svg:svg")
-      .style("width", App.canvasWidth + "px")
-      .style("height", App.canvasHeight + "px")
-    .append("svg:g")
-      .attr("transform", "translate(-.5,-.5)")
-      .attr("id", "container");
-
-  // Construct treemap layout
-  App.treemap = d3.layout.treemap()
-    .size([App.canvasWidth + 1, App.canvasHeight + 1])
-    .value(function(d) {
-      return d.number;
-    })
-    .children(function(d) {
-      if (_.has(d, "countries")) {
-        var allCountries = [];
-        // For each country code, add the countries data in
-        // if it exists. Otherwise fill it in with 0 medals
-        // for gold/silver/bronze
-        _.each(App.countryCodes, function(countryCode) {
-          var countryData = _.find(d.countries, function(elem) {
-            return elem.country_code === countryCode;
-          })
-
-          if (countryData) {
-            allCountries.push(countryData);
-          } else {
-            allCountries.push({
-              country_code: countryCode,
-              gold: 0,
-              silver: 0,
-              bronze: 0
-            })
-          }
-        });
-
-        return allCountries;
-      } else if (_.has(d, "country_code")) {
-        // Contruct medal children nodes
-        return [
-            { medal: "gold", number: d.gold },
-            { medal: "silver", number: d.silver },
-            { medal: "bronze", number: d.bronze }
-          ];
-      } else {
-        return null;
-      }
-    });
 
   // Add control links
   appendControls("controls", "#medals-tree-map");
