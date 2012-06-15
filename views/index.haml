@@ -3,18 +3,20 @@
     .span12.tabbable
       %ul.nav.nav-tabs
         %li.active
-          %a{:href => '#nav-summer-olympics', :"data-toggle" => "tab"} Summer Olympics
+          %a{:href => '#summer-olympics', :"data-toggle" => "tab"} Summer Olympics
         %li
-          %a{:href => '#nav-winter-olympics', :"data-toggle" => "tab"} Winter Olympics
+          %a{:href => '#winter-olympics', :"data-toggle" => "tab"} Winter Olympics
       .tab-content
-        #nav-summer-olympics.tab-pane.active
+        #summer-olympics.tab-pane.active
           %h2
             Comparison of total Summer Olympic medals won
-          %div#medals-tree-map
+          #summer-medals-tree-map.medals-tree-map
           %p#data-source
-        #nav-winter-olympics.tab-pane
+        #winter-olympics.tab-pane
           %h2
             Comparison of total Winter Olympic medals won
+          #winter-medals-tree-map.medals-tree-map
+          %p.data-source
 
   %hr/
 

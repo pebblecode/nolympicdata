@@ -48,6 +48,60 @@ App.colorScale = d3.scale.category20c();
   $("#data-source").html(dataSourceHtml({ dataSource: App.dataUrl }));
 
 
+  function init() {
+    App.olympicsNav = new App.NavView({ el: "#main" });
+    App.router = new TabsRouter;
+    Backbone.history.start();
+
+    App.router.navigate("#summer-olympics");
+  }
+
+  ///////////////////////////////////////////////////////////////
+  // Router
+  ///////////////////////////////////////////////////////////////
+
+  var TabsRouter = Backbone.Router.extend({
+      routes: {
+          "summer-olympics": "summerOlympicsRoute",
+          "winter-olympics": "winterOlympicsRoute"
+      },
+      summerOlympicsRoute: function() {
+        App.olympicTreemap = new App.TreemapView({ el: "#summer-medals-tree-map" });
+
+        // Add control links
+        appendControls("controls", "#summer-medals-tree-map");
+
+        // Handle toggling medal counts
+        $("#summer-olympics .toggle-medal-counts").click(function(event) {
+          var link = event.target;
+          if ($(link).hasClass("active")) {
+            $("#summer-medals-tree-map .medal").hide();
+            $("#summer-medals-tree-map .country .name").show();
+            $(link).removeClass("active");
+          } else {
+            $("#summer-medals-tree-map .medal").show();
+            $("#summer-medals-tree-map .country .name").hide();
+            $(link).addClass("active");
+          }
+          event.preventDefault();
+        });
+
+        // Get json data
+        App.medalsData = d3.json(App.dataUrl, function(data) {
+          App.data = data;
+          App.years = _.pluck(App.data, 'year');
+          App.countryCodes = findCountryCodes(App.data);
+          App.olympicTreemap.render(App.currentYear);
+
+          // Add years control
+          prependYearsControl("year-selector", "#controls", App.currentYear);
+        });
+      },
+      winterOlympicsRoute: function() {
+        console.log("Winter olympics route");
+      }
+  });
+
   ///////////////////////////////////////////////////////////////
   // Views
   ///////////////////////////////////////////////////////////////
@@ -64,7 +118,7 @@ App.colorScale = d3.scale.category20c();
         console.log("summer");
         $(menuItem).parent().addClass("active");
       }
-      event.preventDefault();
+      // event.preventDefault();
     },
     renderWinterOlympics: function(event) {
       var menuItem = event.target;
@@ -73,7 +127,7 @@ App.colorScale = d3.scale.category20c();
         console.log("winter");
         $(menuItem).parent().addClass("active");
       }
-      event.preventDefault();
+      // event.preventDefault();
     },
     _clearActiveMenus: function() {
       $(".nav li").removeClass("active");
@@ -277,42 +331,6 @@ App.colorScale = d3.scale.category20c();
     }
   });
 
-  ///////////////////////////////////////////////////////////////
-  // Olympic tree map
-  ///////////////////////////////////////////////////////////////
-
-  App.olympicTreemap = new App.TreemapView({ el: "#medals-tree-map" });
-  App.olympicsNav = new App.NavView({ el: "#main" });
-
-  // Add control links
-  appendControls("controls", "#medals-tree-map");
-
-  // Handle toggling medal counts
-  $("#toggle-medal-counts").click(function(event) {
-    var link = event.target;
-    if ($(link).hasClass("active")) {
-      $("#medals-tree-map .medal").hide();
-      $("#medals-tree-map .country .name").show();
-      $(link).removeClass("active");
-    } else {
-      $("#medals-tree-map .medal").show();
-      $("#medals-tree-map .country .name").hide();
-      $(link).addClass("active");
-    }
-    event.preventDefault();
-  });
-
-  // Get json data
-  App.medalsData = d3.json(App.dataUrl, function(data) {
-    App.data = data;
-    App.years = _.pluck(App.data, 'year');
-    App.countryCodes = findCountryCodes(App.data);
-    App.olympicTreemap.render(App.currentYear);
-
-    // Add years control
-    prependYearsControl("year-selector", "#controls", App.currentYear);
-  });
-
   // Returns a unique array of all countries
   function findCountryCodes(data) {
     var countryArrays = _.pluck(data, 'countries');
@@ -328,7 +346,7 @@ App.colorScale = d3.scale.category20c();
   function appendControls(controlsId, elemToAttachTo) {
     var controlsTemplate = _.template("\
     <ul id='<%= id %>'>\
-      <li><a href='#' id='toggle-medal-counts'>Toggle medal counts</a></li>\
+      <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
     </ul>")
     $(elemToAttachTo).append(controlsTemplate({ id: controlsId }));
   }
@@ -373,6 +391,9 @@ App.colorScale = d3.scale.category20c();
       });
     }
   }
+
+  // Initialise the app
+  init();
 
 })();
 
