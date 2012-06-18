@@ -97,7 +97,7 @@ App.colorScale = d3.scale.category20c();
             App.olympicTreemap.render(App.currentYear);
 
             // Add years control
-            tabRouter.prependYearsControl("year-selector", "#controls", App.currentYear);
+            tabRouter.prependYearsControl("#summer-olympics", "#summer-olympics .controls", App.currentYear);
           });
 
           this.summerOlympicsIsLoaded = true;
@@ -113,12 +113,12 @@ App.colorScale = d3.scale.category20c();
         </ul>")
         $(elemToAttachTo).append(controlsTemplate());
       },
-      prependYearsControl: function(yearsSelId, elemToAttachTo, yearSelected) {
-        var yearsTemplate = _.template("<li id=<%= id %>></li>");
-        $(elemToAttachTo).prepend(yearsTemplate({ id: yearsSelId }));
+      prependYearsControl: function(elemContext, elemToAttachTo, yearSelected) {
+        var yearsTemplate = _.template("<li class='year-selector'></li>");
+        $(elemToAttachTo).prepend(yearsTemplate());
 
         // Handle selecting different years
-        var yearsSel = "#" + yearsSelId;
+        var yearsSel = elemContext + " .year-selector";
         d3.selectAll(yearsSel + " a").on("click", function() {
           var yearLink = this;
           var linkIndex = $(yearLink).prevAll().length;
@@ -137,15 +137,15 @@ App.colorScale = d3.scale.category20c();
             max: parseInt(App.years[App.years.length - 1]),
             step: App.yearsBetweenOlympics,
             create: function(event, ui) {
-              $('#year-selector .ui-slider-handle').html("<span id='year-label'>" + App.currentYear + "</span>")
+              $(elemContext + ' .year-selector .ui-slider-handle').html("<span class='year-label'>" + App.currentYear + "</span>")
             },
             change: function(event, ui) {
               App.currentYear = parseInt(ui.value);
               App.olympicTreemap.render(App.currentYear);
-              $('#year-label').html(App.currentYear);
+              $(elemContext + ' .year-label').html(App.currentYear);
             },
             slide: function(event, ui) {
-              $('#year-label').html(ui.value); // Show current slider value
+              $(elemContext + ' .year-label').html(ui.value); // Show current slider value
             }
           })
           .css({

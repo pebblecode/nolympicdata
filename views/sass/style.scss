@@ -86,16 +86,16 @@ text {
   }
 }
 
-#controls {
+.controls {
   margin-left: 0;
   list-style: none;
 
-  #year-selector {
+  .year-selector {
     list-style: none;
     margin: 20px 0 40px 0;
   }
 
-  #year-label {
+  .year-label {
     color: black;
     position: absolute;
     left: -7px;
