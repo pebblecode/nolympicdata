@@ -70,12 +70,8 @@ App.colorScale = d3.scale.category20c();
         if (!this.summerOlympicsIsLoaded) {
           // Get json data
           App.medalsData = d3.json(App.dataUrl, function(data) {
-            App.data = data;
-            App.years = _.pluck(App.data, 'year');
-
             App.olympicTreemap = new App.TreemapView({
               el: "#summer-olympics .medals-tree-map",
-              countryCodes: tabRouter.findCountryCodes(App.data),
               data: data
             });
 
@@ -99,7 +95,12 @@ App.colorScale = d3.scale.category20c();
             });
 
             // Add years control
-            tabRouter.prependYearsControl("#summer-olympics", "#summer-olympics .controls", App.currentYear);
+            App.olympicTreemap.yearsSliderView = new App.YearsSliderView({
+              el: "#summer-olympics .controls",
+              elemContext: "#summer-olympics",
+              data: data,
+              yearSelected: App.currentYear
+            })
           });
 
           this.summerOlympicsIsLoaded = true;
@@ -114,57 +115,6 @@ App.colorScale = d3.scale.category20c();
           <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
         </ul>")
         $(elemToAttachTo).append(controlsTemplate());
-      },
-      prependYearsControl: function(elemContext, elemToAttachTo, yearSelected) {
-        var yearsTemplate = _.template("<li class='year-selector'></li>");
-        $(elemToAttachTo).prepend(yearsTemplate());
-
-        // Handle selecting different years
-        var yearsSel = elemContext + " .year-selector";
-        d3.selectAll(yearsSel + " a").on("click", function() {
-          var yearLink = this;
-          var linkIndex = $(yearLink).prevAll().length;
-
-          drawGraphFromJson(App.data[linkIndex]);
-
-          $(yearsSel + " a").removeClass("active");
-          $(yearLink).addClass("active");
-
-          return false;
-        });
-        if (App.years.length > 0) {
-          $(yearsSel).slider({
-            value: App.currentYear,
-            min: parseInt(App.years[0]),
-            max: parseInt(App.years[App.years.length - 1]),
-            step: App.yearsBetweenOlympics,
-            create: function(event, ui) {
-              $(elemContext + ' .year-selector .ui-slider-handle').html("<span class='year-label'>" + App.currentYear + "</span>")
-            },
-            change: function(event, ui) {
-              App.currentYear = parseInt(ui.value);
-              App.olympicTreemap.render(App.currentYear);
-              $(elemContext + ' .year-label').html(App.currentYear);
-            },
-            slide: function(event, ui) {
-              $(elemContext + ' .year-label').html(ui.value); // Show current slider value
-            }
-          })
-          .css({
-            "width": App.canvasWidth // Same size as canvas width
-          });
-        }
-      },
-      // Returns a unique array of all countries
-      findCountryCodes: function(data) {
-        var countryArrays = _.pluck(data, 'countries');
-        var allCountryArrays = _.flatten(countryArrays);
-        var uniqueCountryArrays = _.uniq(allCountryArrays, false, function(elem) {
-          return elem.country_code;
-        });
-        var country_codes = _.pluck(uniqueCountryArrays, "country_code")
-
-        return country_codes;
       }
   });
 
@@ -195,10 +145,73 @@ App.colorScale = d3.scale.category20c();
 
   });
 
+  /**
+   * Years view
+   *
+   * Parameters:
+   *   data
+   *   elemContext - the container to put in all rendered elements
+   *   yearSelected
+   */
+  App.YearsSliderView = Backbone.View.extend({
+    initialize: function() {
+      this.data = this.options.data;
+      this.years = _.pluck(this.data, 'year');
+      this.elemContext = this.options.elemContext;
+
+      this.render(this.options.yearSelected);
+    },
+    // App.olympicTreemap (render)
+    render: function(yearSelected) {
+      var thisYearsSlider = this;
+
+      var yearsTemplate = _.template("<li class='year-selector'></li>");
+      $(thisYearsSlider.el).prepend(yearsTemplate());
+
+      // Handle selecting different years
+      var yearsSel = thisYearsSlider.elemContext + " .year-selector";
+      d3.selectAll(yearsSel + " a").on("click", function() {
+        var yearLink = this;
+        var linkIndex = $(yearLink).prevAll().length;
+
+        drawGraphFromJson(thisYearsSlider.data[linkIndex]);
+
+        $(yearsSel + " a").removeClass("active");
+        $(yearLink).addClass("active");
+
+        return false;
+      });
+      if (thisYearsSlider.years.length > 0) {
+        $(yearsSel).slider({
+          value: yearSelected,
+          min: parseInt(thisYearsSlider.years[0]),
+          max: parseInt(thisYearsSlider.years[thisYearsSlider.years.length - 1]),
+          step: App.yearsBetweenOlympics,
+          create: function(event, ui) {
+            $(thisYearsSlider.elemContext + ' .year-selector .ui-slider-handle').html("<span class='year-label'>" + yearSelected + "</span>")
+          },
+          change: function(event, ui) {
+            var currentYear = parseInt(ui.value);
+            App.olympicTreemap.render(currentYear);
+            $(thisYearsSlider.elemContext + ' .year-label').html(currentYear);
+          },
+          slide: function(event, ui) {
+            $(thisYearsSlider.elemContext + ' .year-label').html(ui.value); // Show current slider value
+          }
+        })
+        .css({
+          "width": App.canvasWidth // Same size as canvas width
+        });
+      }
+    }
+  });
+
   App.TreemapView = Backbone.View.extend({
     svg: null,
     treemap: null,
     initialize: function() {
+      this.data = this.options.data;
+
       // Create svg container
       this.svg = d3.select(this.el).append("svg:svg")
           .style("width", App.canvasWidth + "px")
@@ -207,7 +220,7 @@ App.colorScale = d3.scale.category20c();
           .attr("transform", "translate(-.5,-.5)")
           .attr("id", "container");
 
-      var countryCodes = this.options.countryCodes;
+      var countryCodes = this._findCountryCodes(this.data);
       // Construct treemap layout
       this.treemap = d3.layout.treemap()
         .size([App.canvasWidth + 1, App.canvasHeight + 1])
@@ -249,7 +262,6 @@ App.colorScale = d3.scale.category20c();
             return null;
           }
         });
-      this.data = this.options.data;
     },
     render: function(year) {
       var thisTreemap = this;
@@ -390,6 +402,17 @@ App.colorScale = d3.scale.category20c();
           return text;
         })
         .style("font-size", function(d) { return App.fontScale(d.area) + "em"; });
+    },
+    // Returns a unique array of all countries
+    _findCountryCodes: function(data) {
+      var countryArrays = _.pluck(data, 'countries');
+      var allCountryArrays = _.flatten(countryArrays);
+      var uniqueCountryArrays = _.uniq(allCountryArrays, false, function(elem) {
+        return elem.country_code;
+      });
+      var country_codes = _.pluck(uniqueCountryArrays, "country_code")
+
+      return country_codes;
     }
   });
 
