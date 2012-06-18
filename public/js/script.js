@@ -86,7 +86,7 @@ App.colorScale = d3.scale.category20c();
         if (!this.summerOlympicsIsLoaded) {
 
           // Get json data
-          App.summerData.rawData = d3.json(App.summerData.dataUrl, function(data) {
+          d3.json(App.summerData.dataUrl, function(data) {
             App.summerData.treemapView = new App.TreemapView({
               el: App.summerData.elContext + " .medals-tree-map",
               data: data
