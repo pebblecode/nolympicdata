@@ -3,7 +3,6 @@ var App = {};
 
 App.data = null;
 App.years = null;
-App.countryCodes = [];
 App.olympicDates = {
   summer: {
     first: 1896,
@@ -69,10 +68,16 @@ App.colorScale = d3.scale.category20c();
       summerOlympicsRoute: function() {
         tabRouter = this;
         if (!this.summerOlympicsIsLoaded) {
-          App.olympicTreemap = new App.TreemapView({ el: "#summer-olympics .medals-tree-map" });
+          // Get json data
+          App.medalsData = d3.json(App.dataUrl, function(data) {
+            App.data = data;
+            App.years = _.pluck(App.data, 'year');
+            App.countryCodes = tabRouter.findCountryCodes(App.data);
+            App.olympicTreemap = new App.TreemapView({ el: "#summer-olympics .medals-tree-map", countryCodes: App.countryCodes });
 
-          // Add control links
-          this.appendControls("#summer-olympics .medals-tree-map");
+            // Add control links
+            tabRouter.appendControls("#summer-olympics .medals-tree-map");
+            App.olympicTreemap.render(App.currentYear);
 
           // Handle toggling medal counts
           $("#summer-olympics .toggle-medal-counts").click(function(event) {
@@ -88,13 +93,6 @@ App.colorScale = d3.scale.category20c();
             }
             event.preventDefault();
           });
-
-          // Get json data
-          App.medalsData = d3.json(App.dataUrl, function(data) {
-            App.data = data;
-            App.years = _.pluck(App.data, 'year');
-            App.countryCodes = tabRouter.findCountryCodes(App.data);
-            App.olympicTreemap.render(App.currentYear);
 
             // Add years control
             tabRouter.prependYearsControl("#summer-olympics", "#summer-olympics .controls", App.currentYear);
@@ -205,6 +203,7 @@ App.colorScale = d3.scale.category20c();
           .attr("transform", "translate(-.5,-.5)")
           .attr("id", "container");
 
+      var countryCodes = this.options.countryCodes;
       // Construct treemap layout
       this.treemap = d3.layout.treemap()
         .size([App.canvasWidth + 1, App.canvasHeight + 1])
@@ -217,7 +216,7 @@ App.colorScale = d3.scale.category20c();
             // For each country code, add the countries data in
             // if it exists. Otherwise fill it in with 0 medals
             // for gold/silver/bronze
-            _.each(App.countryCodes, function(countryCode) {
+            _.each(countryCodes, function(countryCode) {
               var countryData = _.find(d.countries, function(elem) {
                 return elem.country_code === countryCode;
               })
