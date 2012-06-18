@@ -53,7 +53,7 @@ App.colorScale = d3.scale.category20c();
     App.router = new TabsRouter;
     Backbone.history.start();
 
-    App.router.navigate("#summer-olympics");
+    App.router.navigate("#summer-olympics", { trigger: true });
   }
 
   ///////////////////////////////////////////////////////////////
@@ -108,26 +108,20 @@ App.colorScale = d3.scale.category20c();
 
   App.NavView = Backbone.View.extend({
     events: {
-      "click #nav-summer-olympics": "renderSummerOlympics",
-      "click #nav-winter-olympics": "renderWinterOlympics"
+      "click #nav-summer-olympics a": "renderSummerOlympics",
+      "click #nav-winter-olympics a": "renderWinterOlympics"
     },
     renderSummerOlympics: function(event) {
       var menuItem = event.target;
       if (!$(menuItem).hasClass("active")) {
-        this._clearActiveMenus();
         console.log("summer");
-        $(menuItem).parent().addClass("active");
       }
-      // event.preventDefault();
     },
     renderWinterOlympics: function(event) {
       var menuItem = event.target;
       if (!$(menuItem).hasClass("active")) {
-        this._clearActiveMenus();
         console.log("winter");
-        $(menuItem).parent().addClass("active");
       }
-      // event.preventDefault();
     },
     _clearActiveMenus: function() {
       $(".nav li").removeClass("active");
