@@ -3,27 +3,26 @@ var App = {};
 
 App.data = null;
 App.years = null;
-App.olympicDates = {
-  summer: {
-    first: 1896,
-    last: 2008
-  },
-  winter: {
-    first: 1924,
-    last: 2006
-  }
-}
-App.initialYear = {
-  summer: 2008,
-  winter: 2006
-}
+
 App.currentYear = 2008;
 
 // Data urls
 App.dataUrl = "/get?url=http%3A%2F%2Fnolympics.pebblecode.net%2Fapi%2FMedals%2F%3Ffirst%3D1896%26last%3D2008"
 // App.dataUrl = "/api/Medals/?first=1996&last=2008"
 
+// Template for the url to get the olympics medal data
+//
+// Parameters:
+// startYear
+// endYear
+App.dataUrlTemplate = _.template("/get?url=http%3A%2F%2Fnolympics.pebblecode.net%2Fapi%2FMedals%2F%3Ffirst%3D<%= startYear %>%26last%3D<%= endYear %>")
+// App.dataUrl = _.template("/api/Medals/?first=<%= startYear %>&last=<%= endYear %>"
+
 // Constants
+App.summerStartYear = 1896;
+App.summerEndYear = 2008;
+App.winterStartYear = 1924;
+App.winterEndYear = 2006;
 App.yearsBetweenOlympics = 4;
 
 App.canvasWidth = 960;
@@ -61,23 +60,45 @@ App.colorScale = d3.scale.category20c();
 
   var TabsRouter = Backbone.Router.extend({
       routes: {
-          "summer-olympics": "summerOlympicsRoute",
-          "winter-olympics": "winterOlympicsRoute"
+        "summer-olympics": "summerOlympicsRoute",
+        "winter-olympics": "winterOlympicsRoute"
+      },
+      initialize: function() {
+        App.summerData = {
+          firstYear: App.summerStartYear,
+          lastYear: App.summerEndYear,
+          currentYear: App.summerEndYear,
+          dataUrl: App.dataUrlTemplate({
+            startYear: App.summerStartYear,
+            endYear: App.summerEndYear
+          })
+        };
+
+        App.winterData = {
+          firstYear: App.winterStartYear,
+          lastYear: App.winterEndYear,
+          currentYear: App.winterEndYear,
+          dataUrl: App.dataUrlTemplate({
+            startYear: App.winterStartYear,
+            endYear: App.winterEndYear
+          })
+        };
       },
       summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
         tabRouter = this;
         if (!this.summerOlympicsIsLoaded) {
+
           // Get json data
-          App.medalsData = d3.json(App.dataUrl, function(data) {
-            App.olympicTreemap = new App.TreemapView({
+          App.summerData.rawData = d3.json(App.summerData.dataUrl, function(data) {
+            App.summerData.treemapView = new App.TreemapView({
               el: "#summer-olympics .medals-tree-map",
               data: data
             });
 
             // Add control links
             tabRouter.appendControls("#summer-olympics .medals-tree-map");
-            App.olympicTreemap.render(App.currentYear);
+            App.summerData.treemapView.render(App.summerData.currentYear);
 
             // Handle toggling medal counts
             $("#summer-olympics .toggle-medal-counts").click(function(event) {
@@ -95,11 +116,12 @@ App.colorScale = d3.scale.category20c();
             });
 
             // Add years control
-            App.olympicTreemap.yearsSliderView = new App.YearsSliderView({
+            App.summerData.yearsSliderView = new App.YearsSliderView({
               el: "#summer-olympics .controls",
               elemContext: "#summer-olympics",
               data: data,
-              yearSelected: App.currentYear
+              yearSelected: App.summerData.currentYear,
+              olympicData: App.summerData
             })
           });
 
@@ -117,6 +139,7 @@ App.colorScale = d3.scale.category20c();
         $(elemToAttachTo).append(controlsTemplate());
       }
   });
+
 
   ///////////////////////////////////////////////////////////////
   // Views
@@ -145,19 +168,19 @@ App.colorScale = d3.scale.category20c();
 
   });
 
-  /**
-   * Years view
-   *
-   * Parameters:
-   *   data
-   *   elemContext - the container to put in all rendered elements
-   *   yearSelected
-   */
+  // Years view
+  //
+  // Parameters:
+  //   data
+  //   elemContext - the container to put in all rendered elements
+  //   yearSelected
+  //   olympicData
   App.YearsSliderView = Backbone.View.extend({
     initialize: function() {
       this.data = this.options.data;
       this.years = _.pluck(this.data, 'year');
       this.elemContext = this.options.elemContext;
+      this.olympicData = this.options.olympicData;
 
       this.render(this.options.yearSelected);
     },
@@ -192,7 +215,7 @@ App.colorScale = d3.scale.category20c();
           },
           change: function(event, ui) {
             var currentYear = parseInt(ui.value);
-            App.olympicTreemap.render(currentYear);
+            thisYearsSlider.olympicData.treemapView.render(currentYear);
             $(thisYearsSlider.elemContext + ' .year-label').html(currentYear);
           },
           slide: function(event, ui) {
