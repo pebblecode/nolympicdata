@@ -68,21 +68,21 @@ App.colorScale = d3.scale.category20c();
       summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
         if (!this.summerOlympicsIsLoaded) {
-          App.olympicTreemap = new App.TreemapView({ el: "#summer-medals-tree-map" });
+          App.olympicTreemap = new App.TreemapView({ el: "#summer-olympics .medals-tree-map" });
 
           // Add control links
-          appendControls("controls", "#summer-medals-tree-map");
+          this.appendControls("#summer-olympics .medals-tree-map");
 
           // Handle toggling medal counts
           $("#summer-olympics .toggle-medal-counts").click(function(event) {
             var link = event.target;
             if ($(link).hasClass("active")) {
-              $("#summer-medals-tree-map .medal").hide();
-              $("#summer-medals-tree-map .country .name").show();
+              $("#summer-olympics .medal").hide();
+              $("#summer-olympics .medals-tree-map .country .name").show();
               $(link).removeClass("active");
             } else {
-              $("#summer-medals-tree-map .medal").show();
-              $("#summer-medals-tree-map .country .name").hide();
+              $("#summer-olympics .medals-tree-map .medal").show();
+              $("#summer-olympics .medals-tree-map .country .name").hide();
               $(link).addClass("active");
             }
             event.preventDefault();
@@ -104,6 +104,13 @@ App.colorScale = d3.scale.category20c();
       },
       winterOlympicsRoute: function() {
         console.log("Winter olympics route");
+      },
+      appendControls: function(elemToAttachTo) {
+        var controlsTemplate = _.template("\
+        <ul class='controls'>\
+          <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
+        </ul>")
+        $(elemToAttachTo).append(controlsTemplate());
       }
   });
 
@@ -340,14 +347,6 @@ App.colorScale = d3.scale.category20c();
     var country_codes = _.pluck(uniqueCountryArrays, "country_code")
 
     return country_codes;
-  }
-
-  function appendControls(controlsId, elemToAttachTo) {
-    var controlsTemplate = _.template("\
-    <ul id='<%= id %>'>\
-      <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
-    </ul>")
-    $(elemToAttachTo).append(controlsTemplate({ id: controlsId }));
   }
 
   function prependYearsControl(yearsSelId, elemToAttachTo, yearSelected) {
