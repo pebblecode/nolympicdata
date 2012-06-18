@@ -1,15 +1,6 @@
 // Global app namespace
 var App = {};
 
-App.data = null;
-App.years = null;
-
-App.currentYear = 2008;
-
-// Data urls
-App.dataUrl = "/get?url=http%3A%2F%2Fnolympics.pebblecode.net%2Fapi%2FMedals%2F%3Ffirst%3D1896%26last%3D2008"
-// App.dataUrl = "/api/Medals/?first=1996&last=2008"
-
 // Template for the url to get the olympics medal data
 //
 // Parameters:
@@ -21,8 +12,8 @@ App.dataUrlTemplate = _.template("/get?url=http%3A%2F%2Fnolympics.pebblecode.net
 // Constants
 App.summerStartYear = 1896;
 App.summerEndYear = 2008;
-App.winterStartYear = 1924;
-App.winterEndYear = 2006;
+App.winterStartYear = 1994;
+App.winterEndYear = 2006; // Winter olympics was the same year as the summer olympics until 1992
 App.yearsBetweenOlympics = 4;
 
 App.canvasWidth = 960;
@@ -58,7 +49,7 @@ App.colorScale = d3.scale.category20c();
         "winter-olympics": "winterOlympicsRoute"
       },
       initialize: function() {
-        App.summerData = {
+        this.summerData = {
           elContext: "#summer-olympics",
           firstYear: App.summerStartYear,
           lastYear: App.summerEndYear,
@@ -66,10 +57,12 @@ App.colorScale = d3.scale.category20c();
           dataUrl: App.dataUrlTemplate({
             startYear: App.summerStartYear,
             endYear: App.summerEndYear
-          })
+          }),
+          treemapView: null,
+          yearsSliderView: null
         };
 
-        App.winterData = {
+        this.winterData = {
           elContext: "#winter-olympics",
           firstYear: App.winterStartYear,
           lastYear: App.winterEndYear,
@@ -77,58 +70,66 @@ App.colorScale = d3.scale.category20c();
           dataUrl: App.dataUrlTemplate({
             startYear: App.winterStartYear,
             endYear: App.winterEndYear
-          })
+          }),
+          treemapView: null,
+          yearsSliderView: null
         };
       },
       summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
-        tabRouter = this;
         if (!this.summerOlympicsIsLoaded) {
-
-          // Get json data
-          d3.json(App.summerData.dataUrl, function(data) {
-            App.summerData.treemapView = new App.TreemapView({
-              el: App.summerData.elContext + " .medals-tree-map",
-              data: data
-            });
-
-            // Add control links
-            tabRouter._appendControls(App.summerData.elContext + " .medals-tree-map");
-            App.summerData.treemapView.render(App.summerData.currentYear);
-
-            // Handle toggling medal counts
-            $(App.summerData.elContext + " .toggle-medal-counts").click(function(event) {
-              var link = event.target;
-              if ($(link).hasClass("active")) {
-                $("#summer-olympics .medal").hide();
-                $("#summer-olympics .medals-tree-map .country .name").show();
-                $(link).removeClass("active");
-              } else {
-                $("#summer-olympics .medals-tree-map .medal").show();
-                $("#summer-olympics .medals-tree-map .country .name").hide();
-                $(link).addClass("active");
-              }
-              event.preventDefault();
-            });
-
-            // Add years control
-            App.summerData.yearsSliderView = new App.YearsSliderView({
-              el: App.summerData.elContext + " .controls",
-              elemContext: App.summerData.elContext,
-              data: data,
-              yearSelected: App.summerData.currentYear,
-              olympicData: App.summerData
-            })
-          });
-
-          // Add data source
-          tabRouter._appendDataSource(App.summerData.elContext + " .data-source", App.summerData.dataUrl);
-
+          this._showData(this.summerData);
           this.summerOlympicsIsLoaded = true;
         }
       },
+      winterOlympicsIsLoaded: false,
       winterOlympicsRoute: function() {
-        console.log("Winter olympics route");
+        if (!this.winterOlympicsIsLoaded) {
+          this._showData(this.winterData);
+          this.winterOlympicsIsLoaded = true;
+        }
+      },
+      _showData: function(olympicData) {
+        var tabRouter = this;
+        // Get json data
+        d3.json(olympicData.dataUrl, function(data) {
+          olympicData.treemapView = new App.TreemapView({
+            el: olympicData.elContext + " .medals-tree-map",
+            data: data
+          });
+
+          // Add control links
+          tabRouter._appendControls(olympicData.elContext + " .medals-tree-map");
+
+          olympicData.treemapView.render(olympicData.currentYear);
+
+          // Handle toggling medal counts
+          $(olympicData.elContext + " .toggle-medal-counts").click(function(event) {
+            var link = event.target;
+            if ($(link).hasClass("active")) {
+              $(olympicData.elContext + " .medal").hide();
+              $(olympicData.elContext + " .medals-tree-map .country .name").show();
+              $(link).removeClass("active");
+            } else {
+              $(olympicData.elContext + " .medals-tree-map .medal").show();
+              $(olympicData.elContext + " .medals-tree-map .country .name").hide();
+              $(link).addClass("active");
+            }
+            event.preventDefault();
+          });
+
+          // Add years control
+          olympicData.yearsSliderView = new App.YearsSliderView({
+            el: olympicData.elContext + " .controls",
+            elemContext: olympicData.elContext,
+            data: data,
+            yearSelected: olympicData.currentYear,
+            olympicData: olympicData
+          })
+        });
+
+        // Add data source
+        tabRouter._appendDataSource(olympicData.elContext + " .data-source", olympicData.dataUrl);
       },
       _appendControls: function(elemToAttachTo) {
         var controlsTemplate = _.template("\
