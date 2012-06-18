@@ -65,37 +65,42 @@ App.colorScale = d3.scale.category20c();
           "summer-olympics": "summerOlympicsRoute",
           "winter-olympics": "winterOlympicsRoute"
       },
+      summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
-        App.olympicTreemap = new App.TreemapView({ el: "#summer-medals-tree-map" });
+        if (!this.summerOlympicsIsLoaded) {
+          App.olympicTreemap = new App.TreemapView({ el: "#summer-medals-tree-map" });
 
-        // Add control links
-        appendControls("controls", "#summer-medals-tree-map");
+          // Add control links
+          appendControls("controls", "#summer-medals-tree-map");
 
-        // Handle toggling medal counts
-        $("#summer-olympics .toggle-medal-counts").click(function(event) {
-          var link = event.target;
-          if ($(link).hasClass("active")) {
-            $("#summer-medals-tree-map .medal").hide();
-            $("#summer-medals-tree-map .country .name").show();
-            $(link).removeClass("active");
-          } else {
-            $("#summer-medals-tree-map .medal").show();
-            $("#summer-medals-tree-map .country .name").hide();
-            $(link).addClass("active");
-          }
-          event.preventDefault();
-        });
+          // Handle toggling medal counts
+          $("#summer-olympics .toggle-medal-counts").click(function(event) {
+            var link = event.target;
+            if ($(link).hasClass("active")) {
+              $("#summer-medals-tree-map .medal").hide();
+              $("#summer-medals-tree-map .country .name").show();
+              $(link).removeClass("active");
+            } else {
+              $("#summer-medals-tree-map .medal").show();
+              $("#summer-medals-tree-map .country .name").hide();
+              $(link).addClass("active");
+            }
+            event.preventDefault();
+          });
 
-        // Get json data
-        App.medalsData = d3.json(App.dataUrl, function(data) {
-          App.data = data;
-          App.years = _.pluck(App.data, 'year');
-          App.countryCodes = findCountryCodes(App.data);
-          App.olympicTreemap.render(App.currentYear);
+          // Get json data
+          App.medalsData = d3.json(App.dataUrl, function(data) {
+            App.data = data;
+            App.years = _.pluck(App.data, 'year');
+            App.countryCodes = findCountryCodes(App.data);
+            App.olympicTreemap.render(App.currentYear);
 
-          // Add years control
-          prependYearsControl("year-selector", "#controls", App.currentYear);
-        });
+            // Add years control
+            prependYearsControl("year-selector", "#controls", App.currentYear);
+          });
+
+          this.summerOlympicsIsLoaded = true;
+        }
       },
       winterOlympicsRoute: function() {
         console.log("Winter olympics route");
@@ -114,13 +119,13 @@ App.colorScale = d3.scale.category20c();
     renderSummerOlympics: function(event) {
       var menuItem = event.target;
       if (!$(menuItem).hasClass("active")) {
-        console.log("summer");
+        App.router.navigate("#summer-olympics", { trigger: true });
       }
     },
     renderWinterOlympics: function(event) {
       var menuItem = event.target;
       if (!$(menuItem).hasClass("active")) {
-        console.log("winter");
+        App.router.navigate("#winter-olympics", { trigger: true });
       }
     },
     _clearActiveMenus: function() {
