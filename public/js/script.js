@@ -40,12 +40,6 @@ App.maxFontScaleSize = 5;
 App.colorScale = d3.scale.category20c();
 
 (function() {
-
-  // Show data source
-  var dataSourceHtml = _.template("Data source: <a href='<%= dataSource %>'><%= dataSource %></a>")
-  $("#data-source").html(dataSourceHtml({ dataSource: App.dataUrl }));
-
-
   function init() {
     App.olympicsNav = new App.NavView({ el: "#main" });
     App.router = new TabsRouter;
@@ -65,6 +59,7 @@ App.colorScale = d3.scale.category20c();
       },
       initialize: function() {
         App.summerData = {
+          elContext: "#summer-olympics",
           firstYear: App.summerStartYear,
           lastYear: App.summerEndYear,
           currentYear: App.summerEndYear,
@@ -75,6 +70,7 @@ App.colorScale = d3.scale.category20c();
         };
 
         App.winterData = {
+          elContext: "#winter-olympics",
           firstYear: App.winterStartYear,
           lastYear: App.winterEndYear,
           currentYear: App.winterEndYear,
@@ -92,16 +88,16 @@ App.colorScale = d3.scale.category20c();
           // Get json data
           App.summerData.rawData = d3.json(App.summerData.dataUrl, function(data) {
             App.summerData.treemapView = new App.TreemapView({
-              el: "#summer-olympics .medals-tree-map",
+              el: App.summerData.elContext + " .medals-tree-map",
               data: data
             });
 
             // Add control links
-            tabRouter.appendControls("#summer-olympics .medals-tree-map");
+            tabRouter._appendControls(App.summerData.elContext + " .medals-tree-map");
             App.summerData.treemapView.render(App.summerData.currentYear);
 
             // Handle toggling medal counts
-            $("#summer-olympics .toggle-medal-counts").click(function(event) {
+            $(App.summerData.elContext + " .toggle-medal-counts").click(function(event) {
               var link = event.target;
               if ($(link).hasClass("active")) {
                 $("#summer-olympics .medal").hide();
@@ -117,13 +113,16 @@ App.colorScale = d3.scale.category20c();
 
             // Add years control
             App.summerData.yearsSliderView = new App.YearsSliderView({
-              el: "#summer-olympics .controls",
-              elemContext: "#summer-olympics",
+              el: App.summerData.elContext + " .controls",
+              elemContext: App.summerData.elContext,
               data: data,
               yearSelected: App.summerData.currentYear,
               olympicData: App.summerData
             })
           });
+
+          // Add data source
+          tabRouter._appendDataSource(App.summerData.elContext + " .data-source", App.summerData.dataUrl);
 
           this.summerOlympicsIsLoaded = true;
         }
@@ -131,12 +130,16 @@ App.colorScale = d3.scale.category20c();
       winterOlympicsRoute: function() {
         console.log("Winter olympics route");
       },
-      appendControls: function(elemToAttachTo) {
+      _appendControls: function(elemToAttachTo) {
         var controlsTemplate = _.template("\
         <ul class='controls'>\
           <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
         </ul>")
         $(elemToAttachTo).append(controlsTemplate());
+      },
+      _appendDataSource: function(elemToAttachTo, dataUrl) {
+        var dataSourceHtml = _.template("Data source: <a href='<%= dataSource %>'><%= dataSource %></a>")
+        $(elemToAttachTo).append(dataSourceHtml({ dataSource: dataUrl }));
       }
   });
 
