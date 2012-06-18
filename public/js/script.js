@@ -97,7 +97,7 @@ App.colorScale = d3.scale.category20c();
             App.olympicTreemap.render(App.currentYear);
 
             // Add years control
-            prependYearsControl("year-selector", "#controls", App.currentYear);
+            tabRouter.prependYearsControl("year-selector", "#controls", App.currentYear);
           });
 
           this.summerOlympicsIsLoaded = true;
@@ -112,6 +112,46 @@ App.colorScale = d3.scale.category20c();
           <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
         </ul>")
         $(elemToAttachTo).append(controlsTemplate());
+      },
+      prependYearsControl: function(yearsSelId, elemToAttachTo, yearSelected) {
+        var yearsTemplate = _.template("<li id=<%= id %>></li>");
+        $(elemToAttachTo).prepend(yearsTemplate({ id: yearsSelId }));
+
+        // Handle selecting different years
+        var yearsSel = "#" + yearsSelId;
+        d3.selectAll(yearsSel + " a").on("click", function() {
+          var yearLink = this;
+          var linkIndex = $(yearLink).prevAll().length;
+
+          drawGraphFromJson(App.data[linkIndex]);
+
+          $(yearsSel + " a").removeClass("active");
+          $(yearLink).addClass("active");
+
+          return false;
+        });
+        if (App.years.length > 0) {
+          $(yearsSel).slider({
+            value: App.currentYear,
+            min: parseInt(App.years[0]),
+            max: parseInt(App.years[App.years.length - 1]),
+            step: App.yearsBetweenOlympics,
+            create: function(event, ui) {
+              $('#year-selector .ui-slider-handle').html("<span id='year-label'>" + App.currentYear + "</span>")
+            },
+            change: function(event, ui) {
+              App.currentYear = parseInt(ui.value);
+              App.olympicTreemap.render(App.currentYear);
+              $('#year-label').html(App.currentYear);
+            },
+            slide: function(event, ui) {
+              $('#year-label').html(ui.value); // Show current slider value
+            }
+          })
+          .css({
+            "width": App.canvasWidth // Same size as canvas width
+          });
+        }
       },
       // Returns a unique array of all countries
       findCountryCodes: function(data) {
@@ -348,47 +388,6 @@ App.colorScale = d3.scale.category20c();
         .style("font-size", function(d) { return App.fontScale(d.area) + "em"; });
     }
   });
-
-  function prependYearsControl(yearsSelId, elemToAttachTo, yearSelected) {
-    var yearsTemplate = _.template("<li id=<%= id %>></li>");
-    $(elemToAttachTo).prepend(yearsTemplate({ id: yearsSelId }));
-
-    // Handle selecting different years
-    var yearsSel = "#" + yearsSelId;
-    d3.selectAll(yearsSel + " a").on("click", function() {
-      var yearLink = this;
-      var linkIndex = $(yearLink).prevAll().length;
-
-      drawGraphFromJson(App.data[linkIndex]);
-
-      $(yearsSel + " a").removeClass("active");
-      $(yearLink).addClass("active");
-
-      return false;
-    });
-    if (App.years.length > 0) {
-      $(yearsSel).slider({
-        value: App.currentYear,
-        min: parseInt(App.years[0]),
-        max: parseInt(App.years[App.years.length - 1]),
-        step: App.yearsBetweenOlympics,
-        create: function(event, ui) {
-          $('#year-selector .ui-slider-handle').html("<span id='year-label'>" + App.currentYear + "</span>")
-        },
-        change: function(event, ui) {
-          App.currentYear = parseInt(ui.value);
-          App.olympicTreemap.render(App.currentYear);
-          $('#year-label').html(App.currentYear);
-        },
-        slide: function(event, ui) {
-          $('#year-label').html(ui.value); // Show current slider value
-        }
-      })
-      .css({
-        "width": App.canvasWidth // Same size as canvas width
-      });
-    }
-  }
 
   // Initialise the app
   init();
