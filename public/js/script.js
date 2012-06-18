@@ -67,6 +67,7 @@ App.colorScale = d3.scale.category20c();
       },
       summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
+        tabRouter = this;
         if (!this.summerOlympicsIsLoaded) {
           App.olympicTreemap = new App.TreemapView({ el: "#summer-olympics .medals-tree-map" });
 
@@ -92,7 +93,7 @@ App.colorScale = d3.scale.category20c();
           App.medalsData = d3.json(App.dataUrl, function(data) {
             App.data = data;
             App.years = _.pluck(App.data, 'year');
-            App.countryCodes = findCountryCodes(App.data);
+            App.countryCodes = tabRouter.findCountryCodes(App.data);
             App.olympicTreemap.render(App.currentYear);
 
             // Add years control
@@ -111,6 +112,17 @@ App.colorScale = d3.scale.category20c();
           <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
         </ul>")
         $(elemToAttachTo).append(controlsTemplate());
+      },
+      // Returns a unique array of all countries
+      findCountryCodes: function(data) {
+        var countryArrays = _.pluck(data, 'countries');
+        var allCountryArrays = _.flatten(countryArrays);
+        var uniqueCountryArrays = _.uniq(allCountryArrays, false, function(elem) {
+          return elem.country_code;
+        });
+        var country_codes = _.pluck(uniqueCountryArrays, "country_code")
+
+        return country_codes;
       }
   });
 
@@ -336,18 +348,6 @@ App.colorScale = d3.scale.category20c();
         .style("font-size", function(d) { return App.fontScale(d.area) + "em"; });
     }
   });
-
-  // Returns a unique array of all countries
-  function findCountryCodes(data) {
-    var countryArrays = _.pluck(data, 'countries');
-    var allCountryArrays = _.flatten(countryArrays);
-    var uniqueCountryArrays = _.uniq(allCountryArrays, false, function(elem) {
-      return elem.country_code;
-    });
-    var country_codes = _.pluck(uniqueCountryArrays, "country_code")
-
-    return country_codes;
-  }
 
   function prependYearsControl(yearsSelId, elemToAttachTo, yearSelected) {
     var yearsTemplate = _.template("<li id=<%= id %>></li>");
