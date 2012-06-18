@@ -72,27 +72,31 @@ App.colorScale = d3.scale.category20c();
           App.medalsData = d3.json(App.dataUrl, function(data) {
             App.data = data;
             App.years = _.pluck(App.data, 'year');
-            App.countryCodes = tabRouter.findCountryCodes(App.data);
-            App.olympicTreemap = new App.TreemapView({ el: "#summer-olympics .medals-tree-map", countryCodes: App.countryCodes });
+
+            App.olympicTreemap = new App.TreemapView({
+              el: "#summer-olympics .medals-tree-map",
+              countryCodes: tabRouter.findCountryCodes(App.data),
+              data: data
+            });
 
             // Add control links
             tabRouter.appendControls("#summer-olympics .medals-tree-map");
             App.olympicTreemap.render(App.currentYear);
 
-          // Handle toggling medal counts
-          $("#summer-olympics .toggle-medal-counts").click(function(event) {
-            var link = event.target;
-            if ($(link).hasClass("active")) {
-              $("#summer-olympics .medal").hide();
-              $("#summer-olympics .medals-tree-map .country .name").show();
-              $(link).removeClass("active");
-            } else {
-              $("#summer-olympics .medals-tree-map .medal").show();
-              $("#summer-olympics .medals-tree-map .country .name").hide();
-              $(link).addClass("active");
-            }
-            event.preventDefault();
-          });
+            // Handle toggling medal counts
+            $("#summer-olympics .toggle-medal-counts").click(function(event) {
+              var link = event.target;
+              if ($(link).hasClass("active")) {
+                $("#summer-olympics .medal").hide();
+                $("#summer-olympics .medals-tree-map .country .name").show();
+                $(link).removeClass("active");
+              } else {
+                $("#summer-olympics .medals-tree-map .medal").show();
+                $("#summer-olympics .medals-tree-map .country .name").hide();
+                $(link).addClass("active");
+              }
+              event.preventDefault();
+            });
 
             // Add years control
             tabRouter.prependYearsControl("#summer-olympics", "#summer-olympics .controls", App.currentYear);
@@ -245,11 +249,12 @@ App.colorScale = d3.scale.category20c();
             return null;
           }
         });
+      this.data = this.options.data;
     },
     render: function(year) {
       var thisTreemap = this;
       // Construct treemap with data
-      var leaves = thisTreemap.treemap(_.find(App.data, function(elem) { return elem.year === year }));
+      var leaves = thisTreemap.treemap(_.find(thisTreemap.data, function(elem) { return elem.year === year }));
 
       // Scale font size based on area of tree cells
       App.fontScale = d3.scale.linear()
