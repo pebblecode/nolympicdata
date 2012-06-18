@@ -195,6 +195,7 @@ App.colorScale = d3.scale.category20c();
 
   App.TreemapView = Backbone.View.extend({
     svg: null,
+    treemap: null,
     initialize: function() {
       // Create svg container
       this.svg = d3.select(this.el).append("svg:svg")
@@ -205,7 +206,7 @@ App.colorScale = d3.scale.category20c();
           .attr("id", "container");
 
       // Construct treemap layout
-      App.treemap = d3.layout.treemap()
+      this.treemap = d3.layout.treemap()
         .size([App.canvasWidth + 1, App.canvasHeight + 1])
         .value(function(d) {
           return d.number;
@@ -247,9 +248,9 @@ App.colorScale = d3.scale.category20c();
         });
     },
     render: function(year) {
-      var treemap = this;
+      var thisTreemap = this;
       // Construct treemap with data
-      var leaves = App.treemap(_.find(App.data, function(elem) { return elem.year === year }));
+      var leaves = thisTreemap.treemap(_.find(App.data, function(elem) { return elem.year === year }));
 
       // Scale font size based on area of tree cells
       App.fontScale = d3.scale.linear()
@@ -290,7 +291,7 @@ App.colorScale = d3.scale.category20c();
       entering.append("text").attr("class", "name"); // Add name of countries
 
       // Update cells
-      cell.call(treemap._updateGraph);
+      cell.call(thisTreemap._updateGraph);
 
       // Animate removal of cells
       cell.exit()
@@ -341,7 +342,6 @@ App.colorScale = d3.scale.category20c();
       });
     },
     _updateGraph: function(selection) {
-      var treemap = this;
       // Place cell
       selection
         .transition()
