@@ -4,6 +4,7 @@
     %meta{:charset => "utf-8"}
     %meta{:name => "description", :content => ""}
     %meta{:name => "author", :content => ""}
+    %link{:rel => "shortcut icon", :type => "image/x-icon", :href => "/images/favicon.ico"}/
     :plain
       <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
       <!--[if lt IE 9]>
@@ -24,12 +25,31 @@
       .navbar.navbar-fixed-top
         .navbar-inner
           .container-fluid
-            %a.brand{:href => '/'} Data visualization
+            %a.brand{:href => 'http://pebblecode.com'} pebble{code}
 
     %section
       = yield
 
     %footer
+      %div
+        %ul#contact
+          %li.size0
+            T:
+            %a{:href => "tel:+44 20 3327 3940"} +44 (0) 20 3327 3940
+          %li.size0
+            E:
+            %a{:href => "mailto:hello@pebblecode.com"} hello@pebblecode.com
+          %li.size0.address
+            %a{:href => "/find-us"} find us
+        %ul#social
+          %li
+            %a#twitter{:href => "http://twitter.com/#!/pebblecode"} twitter
+          %li
+            %a#github{:href => "http://github.com/pebblecode/"} github
+          %li
+            %a#facebook{:href => "http://www.facebook.com/pebblecode"} facebook
+          %li
+            %a#google-plus{:href => "https://plus.google.com/113628709817662471448/posts"} G+
 
     %script{ :type => "text/javascript", :src =>"/bootstrap/js/jquery.js"}
     %script{ :type => "text/javascript", :src =>"/jquery-ui-1.8.20.custom/js/jquery-ui-1.8.20.custom.min.js"}
