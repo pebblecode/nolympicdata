@@ -39,7 +39,7 @@ text {
 
 .medals-tree-map {
   position: relative;
-
+  height: 615px;
   .country {
     text {
       // display: none;
@@ -118,4 +118,8 @@ text {
   position: absolute;
   top: 10px;
   left: 10px;
+}
+
+.loading {
+  background: transparent url(/images/ajax-loader.gif) no-repeat center 200px;
 }

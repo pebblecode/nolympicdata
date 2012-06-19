@@ -78,6 +78,7 @@ App.colorScale = d3.scale.category20c();
       summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
         if (!this.summerOlympicsIsLoaded) {
+          $(this.summerData.elContext + " .medals-tree-map").addClass("loading");
           this._showData(this.summerData);
           this.summerOlympicsIsLoaded = true;
         }
@@ -85,6 +86,7 @@ App.colorScale = d3.scale.category20c();
       winterOlympicsIsLoaded: false,
       winterOlympicsRoute: function() {
         if (!this.winterOlympicsIsLoaded) {
+          $(this.winterData.elContext + " .medals-tree-map").addClass("loading");
           this._showData(this.winterData);
           this.winterOlympicsIsLoaded = true;
         }
@@ -126,6 +128,8 @@ App.colorScale = d3.scale.category20c();
             yearSelected: olympicData.currentYear,
             olympicData: olympicData
           })
+
+          $(olympicData.elContext + " .medals-tree-map").removeClass("loading");
         });
 
         // Add data source
