@@ -33,7 +33,6 @@ App.colorScale = d3.scale.category20c();
 
 (function() {
   function init() {
-    App.olympicsNav = new App.NavView({ el: "#main" });
     App.router = new TabsRouter;
     Backbone.history.start();
   }
@@ -79,6 +78,14 @@ App.colorScale = d3.scale.category20c();
         } else { // Redirect to summer olympics
           window.location.hash = "#summer-olympics"
         }
+
+        // Handle navigation click events
+        $('a[data-toggle="tab"]').click(function (event) {
+          var target = $(this).attr("href");
+          App.router.navigate(target, { trigger: true });
+
+          event.preventDefault();
+        });
       },
       summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
@@ -161,29 +168,6 @@ App.colorScale = d3.scale.category20c();
   ///////////////////////////////////////////////////////////////
   // Views
   ///////////////////////////////////////////////////////////////
-
-  App.NavView = Backbone.View.extend({
-    events: {
-      "click #nav-summer-olympics a": "renderSummerOlympics",
-      "click #nav-winter-olympics a": "renderWinterOlympics"
-    },
-    renderSummerOlympics: function(event) {
-      var menuItem = event.target;
-      if (!$(menuItem).hasClass("active")) {
-        App.router.navigate("#summer-olympics", { trigger: true });
-      }
-    },
-    renderWinterOlympics: function(event) {
-      var menuItem = event.target;
-      if (!$(menuItem).hasClass("active")) {
-        App.router.navigate("#winter-olympics", { trigger: true });
-      }
-    },
-    _clearActiveMenus: function() {
-      $(".nav li").removeClass("active");
-    }
-
-  });
 
   // Years view
   //
