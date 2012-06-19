@@ -96,7 +96,7 @@ text {
   }
 
   .data-source {
-    width: $container-width;
+    text-align: center;
   }
 }
 
@@ -107,7 +107,7 @@ text {
   border: 1px solid black;
 
   padding: 10px;
-  margin: 0 0 15px;
+  margin: 0 auto 15px;
 
   .country {
     text {
