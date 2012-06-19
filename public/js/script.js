@@ -119,21 +119,6 @@ App.colorScale = d3.scale.category20c();
 
           olympicData.treemapView.render(olympicData.lastYear);
 
-          // Handle toggling medal counts
-          $(olympicData.elContext + " .toggle-medal-counts").click(function(event) {
-            var link = event.target;
-            if ($(link).hasClass("active")) {
-              $(olympicData.elContext + " .medal").hide();
-              $(olympicData.elContext + " .medals-tree-map .country .name").show();
-              $(link).removeClass("active");
-            } else {
-              $(olympicData.elContext + " .medals-tree-map .medal").show();
-              $(olympicData.elContext + " .medals-tree-map .country .name").hide();
-              $(link).addClass("active");
-            }
-            event.preventDefault();
-          });
-
           // Add years control
           olympicData.yearsSliderView = new App.YearsSliderView({
             el: olympicData.elContext + " .controls",
@@ -152,7 +137,6 @@ App.colorScale = d3.scale.category20c();
       _appendControls: function(elemToAttachTo) {
         var controlsTemplate = _.template("\
         <ul class='controls'>\
-          <li><a href='#' class='toggle-medal-counts'>Toggle medal counts</a></li>\
         </ul>")
         $(elemToAttachTo).append(controlsTemplate());
       },
