@@ -52,7 +52,6 @@ App.colorScale = d3.scale.category20c();
           elContext: "#summer-olympics",
           firstYear: App.summerStartYear,
           lastYear: App.summerEndYear,
-          currentYear: App.summerEndYear,
           dataUrl: App.dataUrlTemplate({
             startYear: App.summerStartYear,
             endYear: App.summerEndYear
@@ -65,7 +64,6 @@ App.colorScale = d3.scale.category20c();
           elContext: "#winter-olympics",
           firstYear: App.winterStartYear,
           lastYear: App.winterEndYear,
-          currentYear: App.winterEndYear,
           dataUrl: App.dataUrlTemplate({
             startYear: App.winterStartYear,
             endYear: App.winterEndYear
@@ -114,7 +112,7 @@ App.colorScale = d3.scale.category20c();
           // Add control links
           tabRouter._appendControls(olympicData.elContext + " .medals-tree-map");
 
-          olympicData.treemapView.render(olympicData.currentYear);
+          olympicData.treemapView.render(olympicData.lastYear);
 
           // Handle toggling medal counts
           $(olympicData.elContext + " .toggle-medal-counts").click(function(event) {
@@ -136,7 +134,7 @@ App.colorScale = d3.scale.category20c();
             el: olympicData.elContext + " .controls",
             elemContext: olympicData.elContext,
             data: data,
-            yearSelected: olympicData.currentYear,
+            yearSelected: olympicData.lastYear,
             olympicData: olympicData
           })
 
