@@ -16,7 +16,8 @@ App.winterStartYear = 1994;
 App.winterEndYear = 2006; // Winter olympics was the same year as the summer olympics until 1992
 App.yearsBetweenOlympics = 4;
 
-App.canvasWidth = 960;
+App.canvasWidth = 920;
+App.yearsSliderWidth = 900;
 App.canvasHeight = 500;
 
 App.removeCellDuration = 1000; // In milliseconds
@@ -231,7 +232,7 @@ App.colorScale = d3.scale.category20c();
           }
         })
         .css({
-          "width": App.canvasWidth // Same size as canvas width
+          "width": App.yearsSliderWidth // Same size as canvas width
         });
       }
     }
