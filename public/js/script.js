@@ -448,7 +448,7 @@ App.colorScale = d3.scale.category20c();
             if (d.value >= 5) {
               text = d.data.country_code;
             }
-          } else if (_.has(d.data, "medal") && (d.parent.value >= 5) && (d.value > 0)) {
+          } else if (_.has(d.data, "medal") && (d.value > 0)) {
             text = d.data.number
           }
 
