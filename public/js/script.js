@@ -93,9 +93,8 @@ App.colorScale = d3.scale.category20c();
           $(this.summerData.elContext + " .medals-tree-map").addClass("loading");
           this._showData(this.summerData);
           this.summerOlympicsIsLoaded = true;
-
-          $("#nav-summer-olympics a").tab("show");
         }
+        $("#nav-summer-olympics a").tab("show");
       },
       winterOlympicsIsLoaded: false,
       winterOlympicsRoute: function() {
@@ -103,9 +102,8 @@ App.colorScale = d3.scale.category20c();
           $(this.winterData.elContext + " .medals-tree-map").addClass("loading");
           this._showData(this.winterData);
           this.winterOlympicsIsLoaded = true;
-
-          $("#nav-winter-olympics a").tab("show");
         }
+        $("#nav-winter-olympics a").tab("show");
       },
       _showData: function(olympicData) {
         var tabRouter = this;
