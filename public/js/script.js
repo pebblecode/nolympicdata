@@ -354,11 +354,14 @@ App.colorScale = d3.scale.category20c();
         .remove();
 
       // Handle years when there were no olympics
-      $("#no-olympics-msg").remove();
-      if (year === 1916) {
-        $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in 1916 (World War 1)</div>");
-      } else if ((year === 1940) || (year === 1944)) {
-        $("#medals-tree-map").append("<div id='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
+      console.log($(this.el));
+      $(this.el).find(".no-olympics-msg").remove();
+      if ((year >= 1914) && (year <= 1918)) {
+        console.log("WW1");
+        $(this.el).append("<div class='no-olympics-msg'>No olympics in 1916 (World War 1)</div>");
+      } else if ((year >= 1939) && (year <= 1945)) {
+        console.log("WW2");
+        $(this.el).append("<div class='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
       } else {
         this._addCountryTooltips();
       }
