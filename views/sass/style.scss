@@ -110,6 +110,10 @@ text {
   margin: 0 auto 15px;
 
   .country {
+    &.active rect {
+      fill: black !important;
+    }
+
     text {
       // display: none;
       fill: white;
