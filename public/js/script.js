@@ -36,8 +36,6 @@ App.colorScale = d3.scale.category20c();
     App.olympicsNav = new App.NavView({ el: "#main" });
     App.router = new TabsRouter;
     Backbone.history.start();
-
-    App.router.navigate("#summer-olympics", { trigger: true });
   }
 
   ///////////////////////////////////////////////////////////////
@@ -75,6 +73,14 @@ App.colorScale = d3.scale.category20c();
           treemapView: null,
           yearsSliderView: null
         };
+
+        // Navigate to summer olympics by default
+        var hash = window.location.hash;
+        if (hash) {
+          this.navigate(hash, { trigger: true });
+        } else { // Redirect to summer olympics
+          window.location.hash = "#summer-olympics"
+        }
       },
       summerOlympicsIsLoaded: false,
       summerOlympicsRoute: function() {
@@ -82,6 +88,8 @@ App.colorScale = d3.scale.category20c();
           $(this.summerData.elContext + " .medals-tree-map").addClass("loading");
           this._showData(this.summerData);
           this.summerOlympicsIsLoaded = true;
+
+          $("#nav-summer-olympics a").tab("show");
         }
       },
       winterOlympicsIsLoaded: false,
@@ -90,6 +98,8 @@ App.colorScale = d3.scale.category20c();
           $(this.winterData.elContext + " .medals-tree-map").addClass("loading");
           this._showData(this.winterData);
           this.winterOlympicsIsLoaded = true;
+
+          $("#nav-winter-olympics a").tab("show");
         }
       },
       _showData: function(olympicData) {
@@ -355,7 +365,6 @@ App.colorScale = d3.scale.category20c();
         .remove();
 
       // Handle years when there were no olympics
-      console.log($(this.el));
       $(this.el).find(".no-olympics-msg").remove();
       if ((year >= 1914) && (year <= 1918)) {
         console.log("WW1");
