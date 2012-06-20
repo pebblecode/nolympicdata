@@ -94,10 +94,6 @@ text {
     margin-bottom: 15px;
     text-align: center;
   }
-
-  .data-source {
-    text-align: center;
-  }
 }
 
 .medals-tree-map {
@@ -197,6 +193,11 @@ text {
 
 .loading {
   background: transparent url(/images/ajax-loader.gif) no-repeat center 200px;
+}
+
+.info {
+  text-align: center;
+  font-style: italic;
 }
 
 footer {

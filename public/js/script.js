@@ -130,9 +130,6 @@ App.colorScale = d3.scale.category20c();
 
           $(olympicData.elContext + " .medals-tree-map").removeClass("loading");
         });
-
-        // Add data source
-        tabRouter._appendDataSource(olympicData.elContext + " .data-source", olympicData.dataUrl);
       },
       _appendControls: function(elemToAttachTo) {
         var controlsTemplate = _.template("\
