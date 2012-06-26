@@ -1,5 +1,5 @@
 // Global app namespace
-var App = {};
+var App = App || {};
 
 // Template for the url to get the olympics medal data
 //
