@@ -44,7 +44,8 @@ App.colorScale = d3.scale.category20c();
   var TabsRouter = Backbone.Router.extend({
       routes: {
         "summer-olympics": "summerOlympicsRoute",
-        "winter-olympics": "winterOlympicsRoute"
+        "winter-olympics": "winterOlympicsRoute",
+        "*other": "summerOlympicsRoute"
       },
       initialize: function() {
         this.summerData = {
@@ -71,14 +72,6 @@ App.colorScale = d3.scale.category20c();
           yearsSliderView: null
         };
 
-        // Navigate to summer olympics by default
-        var hash = window.location.hash;
-        if (hash) {
-          this.navigate(hash, { trigger: true });
-        } else { // Redirect to summer olympics
-          window.location.hash = "#summer-olympics";
-        }
-
         // Handle navigation click events
         $('a[data-toggle="tab"]').click(function (event) {
           var target = $(this).attr("href");
@@ -95,6 +88,7 @@ App.colorScale = d3.scale.category20c();
           this.summerOlympicsIsLoaded = true;
         }
         $("#nav-summer-olympics a").tab("show");
+        window.location.hash = "#summer-olympics";
       },
       winterOlympicsIsLoaded: false,
       winterOlympicsRoute: function() {
@@ -104,6 +98,7 @@ App.colorScale = d3.scale.category20c();
           this.winterOlympicsIsLoaded = true;
         }
         $("#nav-winter-olympics a").tab("show");
+        window.location.hash = "#winter-olympics";
       },
       _showData: function(olympicData) {
         var tabRouter = this;
