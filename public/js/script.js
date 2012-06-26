@@ -76,7 +76,7 @@ App.colorScale = d3.scale.category20c();
         if (hash) {
           this.navigate(hash, { trigger: true });
         } else { // Redirect to summer olympics
-          window.location.hash = "#summer-olympics"
+          window.location.hash = "#summer-olympics";
         }
 
         // Handle navigation click events
