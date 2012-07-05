@@ -96,6 +96,10 @@ text {
   }
 }
 
+.cell {
+  cursor: pointer;
+}
+
 .medals-tree-map {
   position: relative;
   height: 560px;
@@ -162,6 +166,8 @@ text {
   .year-selector {
     list-style: none;
     margin: 20px 0 40px 5px;
+
+    cursor: pointer;
   }
 
   .year-label {
@@ -174,6 +180,10 @@ text {
 
   .ui-slider-horizontal {
     width: 400px;
+  }
+
+  .ui-slider .ui-slider-handle {
+    cursor: pointer;
   }
 
   a {
