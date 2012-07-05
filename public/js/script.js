@@ -331,10 +331,16 @@ App.TreemapView = Backbone.View.extend({
       $(this.el).append("<div class='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
     } else {
       this._addCountryTooltips();
+
+      // Show country tooltips by default
+      $(".medal").hide().qtip("destroy");
+      $(".country").removeClass("active").find(".name").show();
     }
   },
+
   // Add tooltips for country cells
   _addCountryTooltips: function() {
+    var thisTV = this;
     var medalsTemplate = _.template("Gold: <%= gold %>, Silver: <%= silver %>, Bronze: <%= bronze %>");
     d3.selectAll("g.country").each(function(d) {
       var country = $(this);
@@ -363,39 +369,48 @@ App.TreemapView = Backbone.View.extend({
 
       // Clicking on country shows medals and hides country
       country.click(function(event) {
-        $(countryMedals).show();
-        $(country).find(".name").hide();
-        $(country).addClass("active");
-
-        // Show medal tooltip
-        countryMedals.qtip({
-          content: countryName ? countryName : countryCode,
-          position: {
-            my: 'top left',
-            target: 'mouse',
-            viewport: $(window), // Keep it on-screen at all times if possible
-            adjust: {
-                x: 10,  y: 10
-            }
-          },
-          hide: {
-              fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
-          },
-          style: 'ui-tooltip-shadow'
-        });
+        thisTV._showCountryMedalsTooltip(countryName, countryCode, country, countryMedals);
       });
 
       // Clicking on medal hide medals and shows country
       countryMedals.click(function() {
-        $(countryMedals).hide();
-        $(country).find(".name").show();
-        $(country).removeClass("active");
-
-        // Destroy medal tooltips
-        countryMedals.qtip("destroy");
+        thisTV._showCountryTooltip(countryName, countryCode, country, countryMedals);
       });
     });
   },
+
+  _showCountryMedalsTooltip: function(countryName, countryCode, country, countryMedals) {
+    $(countryMedals).show();
+    $(country).find(".name").hide();
+    $(country).addClass("active");
+
+    // Show medal tooltip
+    countryMedals.qtip({
+      content: countryName ? countryName : countryCode,
+      position: {
+        my: 'top left',
+        target: 'mouse',
+        viewport: $(window), // Keep it on-screen at all times if possible
+        adjust: {
+            x: 10,  y: 10
+        }
+      },
+      hide: {
+          fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
+      },
+      style: 'ui-tooltip-shadow'
+    });
+  },
+
+  _showCountryTooltip: function(countryName, countryCode, country, countryMedals) {
+    $(countryMedals).hide();
+    $(country).find(".name").show();
+    $(country).removeClass("active");
+
+    // Destroy medal tooltips
+    countryMedals.qtip("destroy");
+  },
+
   _updateGraph: function(selection) {
     // Place cell
     selection
