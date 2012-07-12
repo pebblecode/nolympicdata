@@ -327,15 +327,21 @@ App.TreemapView = Backbone.View.extend({
     $(this.el).find(".no-olympics-msg").remove();
     if ((year >= 1914) && (year <= 1918)) {
       $(this.el).append("<div class='no-olympics-msg'>No olympics in 1916 (World War 1)</div>");
+      this._destroyAllTooltips();
     } else if ((year >= 1939) && (year <= 1945)) {
       $(this.el).append("<div class='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
+      this._destroyAllTooltips();
     } else {
-      this._addCountryTooltips();
-
       // Show country tooltips by default
       $(".medal").hide().qtip("destroy");
       $(".country").removeClass("active").find(".name").show();
+
+      this._addCountryTooltips();
     }
+  },
+
+  _destroyAllTooltips: function() {
+    $(".cell").qtip("destroy");
   },
 
   // Add tooltips for country cells
