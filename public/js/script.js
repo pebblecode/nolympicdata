@@ -155,40 +155,40 @@ App.YearsSliderView = Backbone.View.extend({
   },
   // App.olympicTreemap (render)
   render: function(yearSelected) {
-    var thisYearsSlider = this;
+    var thisYSV = this;
 
     var yearsTemplate = _.template("<li class='year-selector'></li>");
-    $(thisYearsSlider.el).prepend(yearsTemplate());
+    $(thisYSV.el).prepend(yearsTemplate());
 
     // Handle selecting different years
-    var yearsSel = thisYearsSlider.elemContext + " .year-selector";
+    var yearsSel = thisYSV.elemContext + " .year-selector";
     d3.selectAll(yearsSel + " a").on("click", function() {
       var yearLink = this;
       var linkIndex = $(yearLink).prevAll().length;
 
-      drawGraphFromJson(thisYearsSlider.data[linkIndex]);
+      drawGraphFromJson(thisYSV.data[linkIndex]);
 
       $(yearsSel + " a").removeClass("active");
       $(yearLink).addClass("active");
 
       return false;
     });
-    if (thisYearsSlider.years.length > 0) {
+    if (thisYSV.years.length > 0) {
       $(yearsSel).slider({
         value: yearSelected,
-        min: parseInt(thisYearsSlider.years[0]),
-        max: parseInt(thisYearsSlider.years[thisYearsSlider.years.length - 1]),
+        min: parseInt(thisYSV.years[0]),
+        max: parseInt(thisYSV.years[thisYSV.years.length - 1]),
         step: App.yearsBetweenOlympics,
         create: function(event, ui) {
-          $(thisYearsSlider.elemContext + ' .year-selector .ui-slider-handle').html("<span class='year-label'>" + yearSelected + "</span>")
+          $(thisYSV.elemContext + ' .year-selector .ui-slider-handle').html("<span class='year-label'>" + yearSelected + "</span>")
         },
         change: function(event, ui) {
           var currentYear = parseInt(ui.value);
-          thisYearsSlider.olympicData.treemapView.render(currentYear);
-          $(thisYearsSlider.elemContext + ' .year-label').html(currentYear);
+          thisYSV.olympicData.treemapView.render(currentYear);
+          $(thisYSV.elemContext + ' .year-label').html(currentYear);
         },
         slide: function(event, ui) {
-          $(thisYearsSlider.elemContext + ' .year-label').html(ui.value); // Show current slider value
+          $(thisYSV.elemContext + ' .year-label').html(ui.value); // Show current slider value
         }
       })
       .css({
