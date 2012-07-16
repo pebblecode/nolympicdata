@@ -38,7 +38,7 @@ App.colorScale = d3.scale.category20c();
 var TabsRouter = Backbone.Router.extend({
     routes: {
       "summer-olympics": "summerOlympicsRoute",
-      "winter-olympics": "winterOlympicsRoute",
+      // "winter-olympics": "winterOlympicsRoute",
       "*other": "summerOlympicsRoute"
     },
     initialize: function() {
