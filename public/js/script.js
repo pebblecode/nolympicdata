@@ -145,6 +145,9 @@ var TabsRouter = Backbone.Router.extend({
 //   yearSelected
 //   olympicData
 App.YearsSliderView = Backbone.View.extend({
+  events: {
+    "click .year-labels a": "yearSelectorClick"
+  },
   initialize: function() {
     this.data = this.options.data;
     this.years = _.pluck(this.data, 'year');
@@ -153,47 +156,32 @@ App.YearsSliderView = Backbone.View.extend({
 
     this.render(this.options.yearSelected);
   },
+  yearSelectorClick: function(event) {
+    var yearLink = event.target;
+    var yearSelected = parseInt($(yearLink).text());
+
+    $(".year-labels .active").removeClass("active");
+    this.olympicData.treemapView.render(yearSelected);
+    $(".year-labels .year-" + yearSelected).addClass("active");
+  },
+
   // App.olympicTreemap (render)
   render: function(yearSelected) {
     var thisYSV = this;
 
-    var yearsTemplate = _.template("<li class='year-selector'></li>");
-    $(thisYSV.el).prepend(yearsTemplate());
-
-    // Handle selecting different years
-    var yearsSel = thisYSV.elemContext + " .year-selector";
-    d3.selectAll(yearsSel + " a").on("click", function() {
-      var yearLink = this;
-      var linkIndex = $(yearLink).prevAll().length;
-
-      drawGraphFromJson(thisYSV.data[linkIndex]);
-
-      $(yearsSel + " a").removeClass("active");
-      $(yearLink).addClass("active");
-
-      return false;
-    });
     if (thisYSV.years.length > 0) {
-      $(yearsSel).slider({
-        value: yearSelected,
-        min: parseInt(thisYSV.years[0]),
-        max: parseInt(thisYSV.years[thisYSV.years.length - 1]),
-        step: App.yearsBetweenOlympics,
-        create: function(event, ui) {
-          $(thisYSV.elemContext + ' .year-selector .ui-slider-handle').html("<span class='year-label'>" + yearSelected + "</span>")
-        },
-        change: function(event, ui) {
-          var currentYear = parseInt(ui.value);
-          thisYSV.olympicData.treemapView.render(currentYear);
-          $(thisYSV.elemContext + ' .year-label').html(currentYear);
-        },
-        slide: function(event, ui) {
-          $(thisYSV.elemContext + ' .year-label').html(ui.value); // Show current slider value
-        }
-      })
-      .css({
-        "width": App.yearsSliderWidth // Same size as canvas width
-      });
+      var yearLabelsTemplate = _.template("\
+<li class='year-labels'>\
+  <ul>\
+    <% _.each(years, function(year) { %>\
+      <li class='year-<%= year %> <%= (year == activeYear) ? 'active' : '' %>''><a href='#'><%= year %></a></li>\
+    <% }); %>\
+  </ul>\
+</li>");
+      $(thisYSV.el).prepend(yearLabelsTemplate({
+        years: thisYSV.years,
+        activeYear: yearSelected
+      }));
     }
   }
 });
