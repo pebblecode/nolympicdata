@@ -157,6 +157,7 @@ App.YearsSliderView = Backbone.View.extend({
     this.render(this.options.yearSelected);
   },
   yearSelectorClick: function(event) {
+    event.preventDefault();
     var yearLink = event.target;
     var yearSelected = parseInt($(yearLink).text());
 
