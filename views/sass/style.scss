@@ -102,7 +102,7 @@ text {
 
 .medals-tree-map {
   position: relative;
-  height: 560px;
+  height: 610px;
   width: $container-width;
   border: 1px solid black;
 
@@ -160,25 +160,22 @@ text {
 }
 
 .controls {
-  margin-left: 0;
+  margin: 10px 0 0 0;
   list-style: none;
 
   .year-labels {
-    ul {
-      list-style: none;
-      margin: 10px 0 0px 0px;
-    }
+    text-align: center;
 
-    li {
-      float: left;
-      margin-right: 10px;
+    a {
+      text-decoration: none;
+      color: #666666;
+      font-size: 22px;
+      line-height: 30px;
+      margin-right: 5px;
 
-      a {
-        text-decoration: none;
-        color: #666666;
-      }
-      &.active a, a:hover {
-        color: #08C
+      &.active, &:hover {
+        color: #08C;
+        font-weight: bold;
       }
     }
   }
@@ -188,8 +185,10 @@ text {
   @extend .size2;
   position: absolute;
   top: 100px;
-  width: 100%;
+  width: $container-width - 80px;
   text-align: center;
+  padding: 0 40px;
+  color: white;
 }
 
 .loading {
@@ -199,6 +198,7 @@ text {
 .info {
   text-align: center;
   font-style: italic;
+  color: black;
 }
 
 footer {

@@ -172,16 +172,15 @@ App.YearsSliderView = Backbone.View.extend({
     if (thisYSV.years.length > 0) {
       var yearLabelsTemplate = _.template("\
 <li class='year-labels'>\
-  <ul>\
-    <% _.each(years, function(year) { %>\
-      <li class='year-<%= year %> <%= (year == activeYear) ? 'active' : '' %>''><a href='#'><%= year %></a></li>\
-    <% }); %>\
-  </ul>\
+  <% _.each(years, function(year) { %>\
+    <a class='year-<%= year %> <%= (year == activeYear) ? 'active' : '' %>' href='#'><%= year %></a>\
+  <% }); %>\
 </li>");
       $(thisYSV.el).prepend(yearLabelsTemplate({
         years: thisYSV.years,
         activeYear: yearSelected
       }));
+      $(thisYSV.el).prepend("<p class='info'>Please click on a year to view medal comparisons.</p>");
     }
   }
 });
@@ -314,10 +313,12 @@ App.TreemapView = Backbone.View.extend({
     // Handle years when there were no olympics
     $(this.el).find(".no-olympics-msg").remove();
     if ((year >= 1914) && (year <= 1918)) {
-      $(this.el).append("<div class='no-olympics-msg'>No olympics in 1916 (World War 1)</div>");
+      $(this.el).append("<div class='no-olympics-msg'>The 1916 Summer Olympics, officially known as the Games of the VI Olympiad, were scheduled to be held in Berlin, Germany, but were eventually cancelled due to the outbreak of World War I.</div>");
       this._destroyAllTooltips();
-    } else if ((year >= 1939) && (year <= 1945)) {
-      $(this.el).append("<div class='no-olympics-msg'>No olympics in " + String(year) + " (World War 2)</div>");
+    } else if (year == 1940) {
+      $(this.el).append("<div class='no-olympics-msg'>The " + String(year) + " Summer Olympics, which were to be officially known as the Games of the XII Olympiad, were cancelled due to World War II.</div>");
+    } else if (year == 1944) {
+      $(this.el).append("<div class='no-olympics-msg'>The " + String(year) + " Summer Olympics, which were to be officially known as the Games of the XIII Olympiad, were cancelled due to World War II.</div>");
       this._destroyAllTooltips();
     } else {
       // Show country tooltips by default
