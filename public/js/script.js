@@ -161,9 +161,9 @@ App.YearsSliderView = Backbone.View.extend({
     var yearLink = event.target;
     var yearSelected = parseInt($(yearLink).text());
 
-    $(".year-labels .active").removeClass("active");
+    $(this.el).find(".year-labels .active").removeClass("active");
     this.olympicData.treemapView.render(yearSelected);
-    $(".year-labels .year-" + yearSelected).addClass("active");
+    $(this.el).find(".year-labels .year-" + yearSelected).addClass("active");
   },
 
   // App.olympicTreemap (render)
