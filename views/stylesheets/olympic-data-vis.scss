@@ -1,7 +1,6 @@
-// @import 'reset';
-@import 'typography';
-@import 'css3';
-@import 'jquery.qtip';
+@import "compass/reset";
+@import "compass/css3";
+// @import 'jquery.qtip';
 
 /* Variables
 ----------------------------------------------------------------------*/
@@ -19,63 +18,63 @@ $baseline : 22px;
 /* General styles
 ----------------------------------------------------------------------*/
 
-.size0 {
-  font-size: 12px;
-  line-height: $baseline;
-}
+// .size0 {
+//   font-size: 12px;
+//   line-height: $baseline;
+// }
 
-.size1 {
-  font-size: 16px;
-  line-height: $baseline;
-}
+// .size1 {
+//   font-size: 16px;
+//   line-height: $baseline;
+// }
 
-.size2 {
-  font-size: 38px;
-  line-height: $baseline*2;
-}
+// .size2 {
+//   font-size: 38px;
+//   line-height: $baseline*2;
+// }
 
-.size3 {
-  font-size: 66px;
-  line-height: $baseline*3;
-}
+// .size3 {
+//   font-size: 66px;
+//   line-height: $baseline*3;
+// }
 
-.size4 {
-  font-size: 88px;
-  line-height: $baseline*4;
-}
+// .size4 {
+//   font-size: 88px;
+//   line-height: $baseline*4;
+// }
 
-.size5 {
-  font-size: 110px;
-  line-height: $baseline*5;
-}
+// .size5 {
+//   font-size: 110px;
+//   line-height: $baseline*5;
+// }
 
-header {
-  .container-fluid, .navbar-inner {
-    background: #EE5080;
-  }
-  .navbar-inner {
-    @include box-shadow(0, 5px, 0, hsla(0, 0%, 0%, 0.1));
-  }
-  .navbar {
-    .brand {
-      display: block;
-      text-indent: -9999px;
-      background-image: url('/images/logo.png');
-      width: 142px;
-      height: 23px;
-      margin: 5px 0 3px 0;
-      padding: 0;
-    }
-  }
-} // header
+// header {
+//   .container-fluid, .navbar-inner {
+//     background: #EE5080;
+//   }
+//   .navbar-inner {
+//     @include box-shadow(0, 5px, 0, hsla(0, 0%, 0%, 0.1));
+//   }
+//   .navbar {
+//     .brand {
+//       display: block;
+//       text-indent: -9999px;
+//       background-image: url('/images/logo.png');
+//       width: 142px;
+//       height: 23px;
+//       margin: 5px 0 3px 0;
+//       padding: 0;
+//     }
+//   }
+// } // header
 
-body {
-  padding-top: 60px;
-}
+// body {
+//   padding-top: 60px;
+// }
 
-.sidebar-nav {
-	padding: 9px 0;
-}
+// .sidebar-nav {
+// 	padding: 9px 0;
+// }
 
 .form-input {
 	height: 28px;
@@ -85,9 +84,9 @@ rect {
   fill: none;
 }
 
-text {
-  font: 10px sans-serif;
-}
+// text {
+//   font: 10px sans-serif;
+// }
 
 .tab-content {
   h2 {

@@ -1,71 +1,98 @@
 # encoding utf-8
 
+require 'rubygems'
 require 'sinatra'
-require 'sinatra/flash'
-require 'sass'
+require './lib/partials'
 require 'haml'
-require 'net/http'
-require 'uri'
+require 'sass'
+require 'compass'
+require 'sinatra/assetpack'
+require 'rdiscount'
+require 'sinatra/content_for'
 
-# Require all in lib directory
-Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
-
-class App < Sinatra::Application
-
-  # Load config.yml into settings.config variable
-  set :config, YAML.load_file("#{root}/config/config.yml")[settings.environment.to_s]
-
-  set :environment, ENV["RACK_ENV"] || "development"
-  set :haml, { :format => :html5 }
-
-  ######################################################################
-  # Configurations for different environments
-  ######################################################################
-
-  configure :staging do
-    enable :logging
-  end
-
-  configure :development do
-    enable :logging
-  end
-
-  ######################################################################
-
-end
-
-helpers do
-  include Rack::Utils
-  alias_method :h, :escape_html
-
-  # More methods in /helpers/*
-end
-
-require_relative 'models/init'
+helpers Sinatra::Partials
 require_relative 'helpers/init'
+helpers Sinatra::ContentFor
+# register Sinatra::AssetPack
 
-########################################################################
-# Routes/Controllers
-########################################################################
+set :root, File.dirname(__FILE__)
+set :environment, ENV["RACK_ENV"] || "development"
+set :blog_url, "http://blog.pebblecode.com"
 
-def protect_with_http_auth!
-  protected!(settings.config["http_auth_username"], settings.config["http_auth_password"])
+configure do
+  Compass.configuration do |config|
+    config.project_path = File.dirname(__FILE__)
+    config.sass_dir = 'views/stylesheets'
+  end
+
+  set :haml, { :format => :html5 }
+  set :scss, Compass.sass_engine_options
+
+  assets {
+    serve '/javascripts', from: 'public/javascripts'
+    # serve '/stylesheets', from: '/stylesheets'
+    serve '/images', from: 'public/images'
+
+    # The second parameter defines where the compressed version will be served.
+    # (Note: that parameter is optional, AssetPack will figure it out.)
+    js :lib, '/javascripts/script.js', [
+      '/javascripts/lib/modernizr-2.5.3.js',
+      '/javascripts/lib/underscore-min.js',
+      '/javascripts/lib/slides.min.jquery.js',
+      '/javascripts/lib/jquery.scrollTo-1.4.2-min.js'
+    ]
+
+    # css :app, '/stylesheets/screen.css', [
+    #   '/stylesheets/screen.css',
+    #   '/fonts/meta.css'
+    # ]
+
+    js_compression  :jsmin
+    css_compression :sass
+  }
 end
 
-# ----------------------------------------------------------------------
-# Main
-# ----------------------------------------------------------------------
-
-get '/css/style.css' do
+get '/stylesheets/screen.css' do
   content_type 'text/css', :charset => 'utf-8'
-  scss :'sass/style'
+  scss :'stylesheets/screen'
 end
 
 get '/' do
+  protected! if settings.environment == "staging"
+
+  "Temporary index page. Data vis is at: <a href='/olympic-data-vis'>olympic data visualisation</a>"
+end
+
+get '/thoughts' do
+  protected! if settings.environment == "staging"
+
+  if settings.environment == "development"
+    # Tumblr blog styles
+    erb :thoughts
+  else
+    # Actual tumblr blog
+    redirect settings.blog_url
+  end
+end
+
+############################################################
+# Olympic data visualisation
+############################################################
+
+def protect_with_http_auth!
+  protected!("datavis", "datavis")
+end
+
+get '/stylesheets/olympic-data-vis.css' do
+  content_type 'text/css', :charset => 'utf-8'
+  scss :'stylesheets/olympic-data-vis'
+end
+
+get '/olympic-data-vis' do
   protect_with_http_auth!
 
-  @page_name = "home"
-  haml :index, :layout => :'layouts/application'
+  @page_name = "olympic-data-vis"
+  haml :"olympic-data-vis", :layout => :'layouts/application'
 end
 
 # Get an arbitrary path
@@ -79,21 +106,16 @@ get '/get' do
   response.body
 end
 
-# -----------------------------------------------------------------------
-# Error handling
-# -----------------------------------------------------------------------
+############################################################
 
-not_found do
-  logger.info "not_found: #{request.request_method} #{request.url}"
+get '/:page' do
+  protected! if settings.environment == "staging"
 
-  @page_name = "not_found"
-  @is_error = true
-  haml :error, :layout => :'layouts/application'
+  @page_name = params['page']
+  haml "#{@page_name}".to_sym, :layout => :'layouts/application'
 end
 
-# All errors
 error do
-  @page_name = "error"
-  @is_error = true
-  haml :error, :layout => :'layouts/application'
+  @page_name = "404"
+  haml "404".to_sym, :layout => :'layouts/application'
 end

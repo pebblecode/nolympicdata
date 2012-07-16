@@ -5,9 +5,15 @@ gem 'thin'
 gem 'sinatra-flash'
 gem 'rack'
 
+# Asset packaging
+gem 'sinatra-assetpack', :require => 'sinatra/assetpack'
+gem 'sinatra-contrib'
+
 # Views
 gem 'sass'
 gem 'haml'
+gem "compass"
+gem 'rdiscount'  # For markdown usage
 
 # For production deployment
 gem 'heroku'
