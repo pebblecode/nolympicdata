@@ -181,7 +181,7 @@ App.YearsSliderView = Backbone.View.extend({
         years: thisYSV.years,
         activeYear: yearSelected
       }));
-      $(thisYSV.el).prepend("<p class='info'>Please click on a year to view medal comparisons.</p>");
+      $(thisYSV.el).prepend("<p class='info'>Click or hover over on a country above to view medal counts. Click on a year below to change the year of the medal comparisons.</p>");
     }
   }
 });
