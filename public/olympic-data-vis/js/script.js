@@ -81,8 +81,8 @@ var TabsRouter = Backbone.Router.extend({
         this._showData(this.summerData);
         this.summerOlympicsIsLoaded = true;
       }
-      $("#nav-summer-olympics a").tab("show");
-      window.location.hash = "#summer-olympics";
+      // $("#nav-summer-olympics a").tab("show");
+      // window.location.hash = "#summer-olympics";
     },
     winterOlympicsIsLoaded: false,
     winterOlympicsRoute: function() {
@@ -91,8 +91,8 @@ var TabsRouter = Backbone.Router.extend({
         this._showData(this.winterData);
         this.winterOlympicsIsLoaded = true;
       }
-      $("#nav-winter-olympics a").tab("show");
-      window.location.hash = "#winter-olympics";
+      // $("#nav-winter-olympics a").tab("show");
+      // window.location.hash = "#winter-olympics";
     },
     _showData: function(olympicData) {
       var tabRouter = this;
