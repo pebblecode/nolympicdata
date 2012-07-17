@@ -1,3 +1,15 @@
+- content_for :js_lib do
+  - # Underscore is already included in pebblecode.com
+  %script{:src => "/olympic-data-vis/js/lib/backbone-min.js", :type => "text/javascript"}
+  %script{:src => "/olympic-data-vis/js/lib/d3.v2.js", :type => "text/javascript"}
+  %script{:src => "/olympic-data-vis/js/lib/jquery.qtip.min.js", :type => "text/javascript"}
+
+- content_for :script_js do
+  %script{:src => "/olympic-data-vis/js/script.js", :type => "text/javascript"}
+
+- content_for :css do
+  %link{:href => "/stylesheets/olympic-data-vis.css", :rel => "stylesheet", :type => "text/css"}/
+
 %section.row
   .columns6
     - # %ul.nav.nav-tabs
