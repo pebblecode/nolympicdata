@@ -1,15 +1,4 @@
-$pink : #EE5080;
-$purple : #9B5CA4;
-$blue : #0EA2DC;
-$aqua : #37BEC0;
-$green : #A4CE4E;
-$orange : #FAAD40;
-
-$column-width : 14.1666667%;
-$column-gutter : 3%;
-$grid-width : 90%;
-$grid-max-width : 1024px;
-$baseline : 22px;
+@import "constants";
 
 html, body{
   height: 100%;
