@@ -18,7 +18,7 @@ App.yearsBetweenOlympics = 4;
 
 App.canvasWidth = 920;
 App.yearsSliderWidth = 900;
-App.canvasHeight = 500;
+App.canvasHeight = 22 * 19; // 22 (vertical baseline) x constant
 
 App.removeCellDuration = 1000; // In milliseconds
 App.transitionCellDuration = 1500; // In milliseconds
@@ -27,7 +27,7 @@ App.removeCellShrinkX = 0.2;
 App.removeCellShrinkY = 0.2;
 
 App.minFontScaleSize = 0.5;
-App.maxFontScaleSize = 5;
+App.maxFontScaleSize = 4.5;
 
 App.colorScale = d3.scale.category20c();
 
