@@ -137,7 +137,9 @@ rect {
 }
 
 .info {
+  font-size: 12px;
+  line-height: $baseline;
+
   text-align: center;
   font-style: italic;
-  color: black;
 }
