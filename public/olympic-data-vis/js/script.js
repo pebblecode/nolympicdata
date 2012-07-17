@@ -16,7 +16,7 @@ App.winterStartYear = 1994;
 App.winterEndYear = 2006; // Winter olympics was the same year as the summer olympics until 1992
 App.yearsBetweenOlympics = 4;
 
-App.canvasWidth = 920;
+App.canvasWidth = 898;
 App.yearsSliderWidth = 900;
 App.canvasHeight = 22 * 19; // 22 (vertical baseline) x constant
 
@@ -181,7 +181,7 @@ App.YearsSliderView = Backbone.View.extend({
         years: thisYSV.years,
         activeYear: yearSelected
       }));
-      $(thisYSV.el).prepend("<p class='info'>Click or hover over on a country above to view medal counts. Click on a year below to change the year of the medal comparisons.</p>");
+      $(thisYSV.el).prepend("<p class='info'>Click/Hover over a country above to view medal counts. Click on a year below to change the year of the medal comparisons.</p>");
     }
   }
 });
