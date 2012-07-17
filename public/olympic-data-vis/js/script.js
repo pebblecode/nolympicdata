@@ -122,8 +122,8 @@ var TabsRouter = Backbone.Router.extend({
     },
     _appendControls: function(elemToAttachTo) {
       var controlsTemplate = _.template("\
-      <ul class='controls'>\
-      </ul>")
+      <div class='controls'>\
+      </div>")
       $(elemToAttachTo).append(controlsTemplate());
     },
     _appendDataSource: function(elemToAttachTo, dataUrl) {
