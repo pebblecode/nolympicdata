@@ -172,11 +172,11 @@ App.YearsSliderView = Backbone.View.extend({
 
     if (thisYSV.years.length > 0) {
       var yearLabelsTemplate = _.template("\
-<li class='year-labels'>\
+<div class='year-labels'>\
   <% _.each(years, function(year) { %>\
     <a class='year-<%= year %> <%= (year == activeYear) ? 'active' : '' %>' href='#'><%= year %></a>\
   <% }); %>\
-</li>");
+</div>");
       $(thisYSV.el).prepend(yearLabelsTemplate({
         years: thisYSV.years,
         activeYear: yearSelected
